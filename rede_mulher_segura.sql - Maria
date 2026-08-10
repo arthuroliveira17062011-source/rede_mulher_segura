@@ -1,0 +1,64 @@
+CREATE DATABASE rede_mulher_segura;
+
+CREATE TABLE usuaria (
+    id_usuario SERIAL PRIMARY KEY,
+    nome_completo VARCHAR(150) NOT NULL,
+    cpf VARCHAR(14) UNIQUE NOT NULL,
+    email VARCHAR(150),
+    telefone_celular VARCHAR(20),
+    data_nascimento DATE,
+    endereco_residencia VARCHAR(255),
+    frase_chave VARCHAR(100)
+);
+
+CREATE TABLE contato_emergencia (
+    id_contato SERIAL PRIMARY KEY,
+    id_usuario INTEGER NOT NULL,
+    nome_completo VARCHAR(150) NOT NULL,
+    telefone_whatsapp VARCHAR(20) NOT NULL,
+    prioridade_notificacao INTEGER NOT NULL,
+    
+    FOREIGN KEY (id_usuario)
+        REFERENCES usuaria(id_usuario)
+);
+
+CREATE TABLE ocorrencias_de_alerta (
+    id_alerta SERIAL PRIMARY KEY,
+    id_usuario INTEGER NOT NULL,
+    data_hora_ativacao TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    tipo_ativacao VARCHAR(50) NOT NULL,
+    link_google_maps_localizacao TEXT,
+    link_compartilhamento TEXT,
+
+    FOREIGN KEY (id_usuario)
+        REFERENCES usuaria(id_usuario)
+);
+
+CREATE TABLE configuracoes_de_seguranca (
+    id_configuracao SERIAL PRIMARY KEY,
+    id_usuario INTEGER NOT NULL,
+    tempo_temporizador_segundo INTEGER,
+    pin_desativacao VARCHAR(10),
+    tema_disfarce_padrao VARCHAR(50),
+
+    FOREIGN KEY (id_usuario)
+        REFERENCES usuaria(id_usuario),
+
+    UNIQUE (id_usuario)
+);
+
+CREATE TABLE midia_provas (
+    id_midia SERIAL PRIMARY KEY,
+    id_alerta INTEGER NOT NULL,
+    id_usuario INTEGER NOT NULL,
+    tipo_arquivo VARCHAR(50) NOT NULL,
+    caminho_arquivo_nuvem TEXT NOT NULL,
+    tamanho_arquivo_bytes BIGINT,
+    data_hora_registro TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (id_alerta)
+        REFERENCES ocorrencias_de_alerta(id_alerta),
+
+    FOREIGN KEY (id_usuario)
+        REFERENCES usuaria(id_usuario)
+);
