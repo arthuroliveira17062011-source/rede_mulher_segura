@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurante Sabor Caseiro & Sentinel System</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Palette Agência/SaaS Corporativo - Painel Usuária */
+            --agency-bg: #0b0f19;
+            --agency-surface: #111827;
+            --agency-card: #1f2937;
+            --agency-border: #374151;
+            --agency-accent: #3b82f6;
+            --agency-alert: #ef4444;
+            --agency-text-primary: #f9fafb;
+            --agency-text-secondary: #9ca3af;
+            
+            /* Palette Restaurante Simples - Modo Disfarce & Login */
+            --menu-bg: #f8f6f0;
+            --menu-surface: #ffffff;
+            --menu-accent: #d97706;
+            --menu-primary: #b91c1c;
+            --menu-dark: #292524;
+            --menu-border: #e7e5e4;
+            --menu-text-muted: #57534e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--agency-bg);
+            color: var(--agency-text-primary);
+            min-height: 100vh;
+            line-height: 1.5;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* ==========================================================================
+           0. TELA DE LOGIN / AUTENTICAÇÃO (COM PALETA DO RESTAURANTE SIMPLES)
+           ========================================================================== */
+        #login-screen {
+            background-color: var(--menu-bg);
+            color: var(--menu-dark);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-card {
+            background-color: var(--menu-surface);
+            border: 1px solid var(--menu-border);
+            border-radius: 12px;
+            padding: 32px 28px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        .login-brand {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--menu-primary);
+            margin-bottom: 6px;
+        }
+
+        .login-subtitle {
+            font-size: 0.9rem;
+            color: var(--menu-text-muted);
+            margin-bottom: 24px;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            text-align: left;
+        }
+
+        .login-label {
+            font-size: 0.85rem;
+            color: var(--menu-dark);
+            font-weight: 600;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .gourmet-input {
+            background-color: var(--menu-bg);
+            border: 1px solid var(--menu-border);
+            color: var(--menu-dark);
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            width: 100%;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .gourmet-input:focus {
+            border-color: var(--menu-primary);
+        }
+
+        .login-btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .btn-login-main {
+            background: var(--menu-primary);
+            color: #ffffff;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            width: 100%;
+        }
+
+        .btn-login-main:hover {
+            background: #991b1b;
+        }
+
+        .btn-login-secondary {
+            background: transparent;
+            color: var(--menu-dark);
+            border: 1px solid var(--menu-border);
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+            text-align: center;
+        }
+
+        .btn-login-secondary:hover {
+            background: var(--menu-bg);
+            border-color: var(--menu-dark);
+        }
+
+        /* ==========================================================================
+           1. MODO DISFARCE: CARDÁPIO SIMPLES & CASEIRO
+           ========================================================================== */
+        #disguise-screen {
+            background-color: var(--menu-bg);
+            color: var(--menu-dark);
+            min-height: 100vh;
+            padding-bottom: 60px;
+        }
+
+        .menu-nav {
+            background: var(--menu-surface);
+            border-bottom: 2px solid var(--menu-primary);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .menu-brand {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--menu-primary);
+        }
+
+        .btn-restore {
+            background: var(--menu-dark);
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .btn-restore:hover {
+            background: var(--menu-primary);
+        }
+
+        .menu-hero {
+            padding: 30px 20px 10px;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .menu-hero h1 {
+            font-family: 'Roboto', sans-serif;
+            font-size: 2.2rem;
+            color: var(--menu-dark);
+            margin-bottom: 6px;
+        }
+
+        .menu-hero p {
+            color: var(--menu-text-muted);
+            font-size: 0.95rem;
+        }
+
+        .category-bar {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0 30px;
+            flex-wrap: wrap;
+        }
+
+        .cat-btn {
+            background: var(--menu-surface);
+            border: 1px solid var(--menu-border);
+            color: var(--menu-dark);
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.88rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .cat-btn.active, .cat-btn:hover {
+            background: var(--menu-primary);
+            color: #fff;
+            border-color: var(--menu-primary);
+        }
+
+        .menu-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 25px;
+        }
+
+        @media (max-width: 900px) {
+            .menu-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .dishes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 18px;
+        }
+
+        .dish-card {
+            background: var(--menu-surface);
+            border: 1px solid var(--menu-border);
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+
+        .dish-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 6px;
+        }
+
+        .dish-title {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--menu-dark);
+        }
+
+        .dish-price {
+            font-weight: 700;
+            color: var(--menu-primary);
+            font-size: 1rem;
+            white-space: nowrap;
+        }
+
+        .dish-desc {
+            font-size: 0.85rem;
+            color: var(--menu-text-muted);
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .btn-add-item {
+            background: var(--menu-bg);
+            border: 1px solid var(--menu-border);
+            color: var(--menu-dark);
+            padding: 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.82rem;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s ease;
+        }
+
+        .btn-add-item:hover {
+            background: var(--menu-accent);
+            color: #fff;
+            border-color: var(--menu-accent);
+        }
+
+        .cart-card {
+            background: var(--menu-surface);
+            border: 1px solid var(--menu-border);
+            border-radius: 8px;
+            padding: 20px;
+            position: sticky;
+            top: 85px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+        }
+
+        .cart-card h3 {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.25rem;
+            border-bottom: 2px solid var(--menu-border);
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-items {
+            list-style: none;
+            max-height: 220px;
+            overflow-y: auto;
+            margin-bottom: 12px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px dashed var(--menu-border);
+            font-size: 0.88rem;
+        }
+
+        .cart-total {
+            font-size: 1rem;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            margin: 12px 0;
+            padding-top: 8px;
+            border-top: 2px solid var(--menu-dark);
+        }
+
+        .table-input {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid var(--menu-border);
+            border-radius: 4px;
+            margin-bottom: 10px;
+            font-size: 0.88rem;
+        }
+
+        .btn-send-order {
+            background: var(--menu-primary);
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: 700;
+            width: 100%;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .btn-send-order:hover {
+            background: #991b1b;
+        }
+
+        /* ==========================================================================
+           2. MODO PAINEL: AGÊNCIA CORPORATIVA / SAAS (REDE MULHER SEGURA)
+           ========================================================================== */
+        .agency-nav {
+            background-color: var(--agency-surface);
+            border-bottom: 1px solid var(--agency-border);
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .agency-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .agency-badge {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--agency-accent);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .btn-disguise {
+            background: var(--agency-card);
+            color: var(--agency-text-secondary);
+            border: 1px solid var(--agency-border);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .dashboard-layout {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            min-height: calc(100vh - 65px);
+        }
+
+        .sidebar {
+            background-color: var(--agency-surface);
+            border-right: 1px solid var(--agency-border);
+            padding: 24px 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .sidebar-btn {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: var(--agency-text-secondary);
+            padding: 12px 14px;
+            border-radius: 6px;
+            text-align: left;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar-btn.active, .sidebar-btn:hover {
+            background-color: var(--agency-card);
+            color: var(--agency-text-primary);
+        }
+
+        .btn-logout {
+            background-color: transparent;
+            border: 1px solid var(--agency-border);
+            color: var(--agency-alert);
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+        }
+
+        .content-area {
+            padding: 32px;
+            max-width: 1100px;
+        }
+
+        .dashboard-header {
+            margin-bottom: 24px;
+        }
+
+        .agency-card {
+            background-color: var(--agency-surface);
+            border: 1px solid var(--agency-border);
+            border-radius: 10px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .alert-zone {
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            background: linear-gradient(180deg, rgba(239, 68, 68, 0.05) 0%, rgba(17, 24, 39, 0) 100%);
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .btn-agency-emergency {
+            background: var(--agency-alert);
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(239, 68, 68, 0.4);
+            width: 100%;
+            max-width: 420px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-agency-emergency:hover {
+            background: #dc2626;
+            transform: scale(1.02);
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-size: 0.88rem;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .agency-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 0.88rem;
+        }
+
+        .agency-table th {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid var(--agency-border);
+            color: var(--agency-text-secondary);
+        }
+
+        .agency-table td {
+            padding: 14px 12px;
+            border-bottom: 1px solid var(--agency-border);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .agency-input {
+            background-color: var(--agency-card);
+            border: 1px solid var(--agency-border);
+            color: var(--agency-text-primary);
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            width: 100%;
+        }
+
+        .btn-agency-primary {
+            background-color: var(--agency-accent);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 0.88rem;
+            font-weight: 500;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .chat-container {
+            background: var(--agency-card);
+            border: 1px solid var(--agency-border);
+            border-radius: 8px;
+            height: 260px;
+            overflow-y: auto;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .chat-msg {
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 0.88rem;
+            max-width: 85%;
+            line-height: 1.4;
+        }
+
+        .chat-msg.system {
+            background: var(--agency-surface);
+            border: 1px solid var(--agency-border);
+            align-self: flex-start;
+        }
+
+        .chat-msg.user {
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            color: #93c5fd;
+            align-self: flex-end;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ======================================================================= -->
+    <!-- 0. TELA DE LOGIN DE ACESSO PROTEGIDO                                    -->
+    <!-- ======================================================================= -->
+    <div id="login-screen">
+        <div class="login-card">
+            <div class="login-brand">
+                Restaurante Sabor Caseiro
+            </div>
+            <p class="login-subtitle">Acesso ao Sistema de Pedidos & Marmitas</p>
+            
+            <div class="login-form">
+                <div>
+                    <label class="login-label">Usuário / CPF Cadastrado</label>
+                    <input type="text" id="login-user" class="gourmet-input" placeholder="000.000.000-00">
+                </div>
+                <div>
+                    <label class="login-label">PIN de Acesso (4 dígitos)</label>
+                    <input type="password" id="login-pin" class="gourmet-input" placeholder="••••" maxlength="8">
+                </div>
+
+                <div class="login-btn-group">
+                    <button class="btn-login-main" onclick="handleLogin()">Entrar no Sistema</button>
+                    <button class="btn-login-secondary" onclick="openDisguiseDirectly()">Ver Cardápio do Dia</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- 1. MODO DISFARCE: CARDÁPIO RESTAURANTE SIMPLES                         -->
+    <!-- ======================================================================= -->
+    <div id="disguise-screen" class="hidden">
+        <nav class="menu-nav">
+            <div class="menu-brand">Restaurante Sabor Caseiro</div>
+            <button onclick="toggleDisguise()" class="btn-restore">🔒 Área Restrita</button>
+        </nav>
+
+        <header class="menu-hero">
+            <h1>Cardápio do Dia</h1>
+            <p>Comida caseira feita na hora. Faça seu pedido diretamente da mesa ou para entrega.</p>
+        </header>
+
+        <div class="category-bar">
+            <button class="cat-btn active" onclick="filterCategory('todos')">Todos os Pratos</button>
+            <button class="cat-btn" onclick="filterCategory('pf')">Pratos Feitos (PF)</button>
+            <button class="cat-btn" onclick="filterCategory('marmitas')">Marmitex</button>
+            <button class="cat-btn" onclick="filterCategory('salgados')">Salgados & Lanches</button>
+            <button class="cat-btn" onclick="filterCategory('bebidas')">Bebidas</button>
+        </div>
+
+        <main class="menu-container">
+            <section class="dishes-grid" id="dishes-grid">
+                
+                <article class="dish-card" data-cat="pf">
+                    <div>
+                        <div class="dish-header">
+                            <h3 class="dish-title">PF Bife a Cavalo</h3>
+                            <span class="dish-price">R$ 26,00</span>
+                        </div>
+                        <p class="dish-desc">Bife acebolado com 2 ovos fritos, arroz, feijão caseiro, farofa e salada da casa.</p>
+                    </div>
+                    <button class="btn-add-item" onclick="addToCart('PF Bife a Cavalo', 26.00)">+ Adicionar ao Pedido</button>
+                </article>
+
+                <article class="dish-card" data-cat="pf">
+                    <div>
+                        <div class="dish-header">
+                            <h3 class="dish-title">PF Frango Grelhado</h3>
+                            <span class="dish-price">R$ 22,00</span>
+                        </div>
+                        <p class="dish-desc">Filé de frango grelhado na chapa, arroz branco, feijão, purê de batata e salada.</p>
+                    </div>
+                    <button class="btn-add-item" onclick="addToCart('PF Frango Grelhado', 22.00)">+ Adicionar ao Pedido</button>
+                </article>
+
+                <article class="dish-card" data-cat="marmitas">
+                    <div>
+                        <div class="dish-header">
+                            <h3 class="dish-title">Marmitex Comercial (M)</h3>
+                            <span class="dish-price">R$ 19,00</span>
+                        </div>
+                        <p class="dish-desc">Carne panela com batata, arroz, feijão e macarrão ao molho vermelho.</p>
+                    </div>
+                    <button class="btn-add-item" onclick="addToCart('Marmitex Comercial (M)', 19.00)">+ Adicionar ao Pedido</button>
+                </article>
+
+                <article class="dish-card" data-cat="marmitas">
+                    <div>
+                        <div class="dish-header">
+                            <h3 class="dish-title">Marmitex Feijoada (G)</h3>
+                            <span class="dish-price">R$ 28,00</span>
+                        </div>
+                        <p class="dish-desc">Feijoada completa com couve refogada, farofa temperada, torresmo e laranjas.</p>
+                    </div>
+                    <button class="btn-add-item" onclick="addToCart('Marmitex Feijoada (G)', 28.00)">+ Adicionar ao Pedido</button>
+                </article>
+
+                <article class="dish-card" data-cat="salgados">
+                    <div>
+                        <div class="dish-header">
+                            <h3 class="dish-title">Coxinha de Frango c/ Catupiry</h3>
+                            <span class="dish-price">R$ 7,50</span>
+                        </div>
+                        <p class="dish-desc">Salgado frito na hora com recheio bem temperado de frango desfiado.</p>
+                    </div>
+                    <button class="btn-add-item" onclick="addToCart('Coxinha de Frango', 7.50)">+ Adicionar ao Pedido</button>
+                </article>
+
+                <article class="dish-card" data-cat="salgados">
+                    <div>
+                        <div class="dish-header">
+                            <h3 class="dish-title">Pastel de Carne Frito</h3>
+                            <span class="dish-price">R$ 8,00</span>
+                        </div>
+                        <p class="dish-desc">Pastel crocante recheado com carne moída temperada e azeitona.</p>
+                    </div>
+                    <button class="btn-add-item" onclick="addToCart('Pastel de Carne', 8.00)">+ Adicionar ao Pedido</button>
+                </article>
+
+                <article class="dish-card" data-cat="bebidas">
+                    <div>
+                        <div class="dish-header">
+                            <h3 class="dish-title">Suco de Laranja (500ml)</h3>
+                            <span class="dish-price">R$ 9,00</span>
+                        </div>
+                        <p class="dish-desc">Suco natural de laranja espremido na hora, gelado e sem açúcar.</p>
+                    </div>
+                    <button class="btn-add-item" onclick="addToCart('Suco de Laranja', 9.00)">+ Adicionar ao Pedido</button>
+                </article>
+
+                <article class="dish-card" data-cat="bebidas">
+                    <div>
+                        <div class="dish-header">
+                            <h3 class="dish-title">Refrigerante Lata (350ml)</h3>
+                            <span class="dish-price">R$ 6,00</span>
+                        </div>
+                        <p class="dish-desc">Coca-Cola, Guaraná Antarctica ou Fanta Laranja.</p>
+                    </div>
+                    <button class="btn-add-item" onclick="addToCart('Refrigerante Lata', 6.00)">+ Adicionar ao Pedido</button>
+                </article>
+
+            </section>
+
+            <aside>
+                <div class="cart-card">
+                    <h3>Comanda 🛒</h3>
+                    <ul class="cart-items" id="cart-items">
+                        <li style="color: var(--menu-text-muted); font-size: 0.85rem;">Seu pedido está vazio.</li>
+                    </ul>
+                    <div class="cart-total">
+                        <span>Total:</span>
+                        <span id="cart-total-value">R$ 0,00</span>
+                    </div>
+                    <input type="text" class="table-input" placeholder="Número da Mesa (ex: Mesa 02)">
+                    <button class="btn-send-order" onclick="sendOrder()">Confirmar Pedido</button>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- 2. PAINEL DA USUÁRIA: REDE MULHER SEGURA                                -->
+    <!-- ======================================================================= -->
+    <div id="app-screen" class="hidden">
+        <nav class="agency-nav">
+            <div class="agency-brand">
+                <span>🛡️ Rede Mulher Segura</span>
+                <span class="agency-badge">Maringá / PR</span>
+            </div>
+            <button onclick="toggleDisguise()" class="btn-disguise">Modo Disfarce 🍃</button>
+        </nav>
+
+        <div class="dashboard-layout">
+            <aside class="sidebar">
+                <ul class="sidebar-menu">
+                    <li><button class="sidebar-btn active" onclick="switchTab(event, 'emergencia')">🚨 Alerta de Emergência</button></li>
+                    <li><button class="sidebar-btn" onclick="switchTab(event, 'provas')">📁 Cofre de Evidências</button></li>
+                    <li><button class="sidebar-btn" onclick="switchTab(event, 'ia')">🤖 Assistente RAG (IA Local)</button></li>
+                    <li><button class="sidebar-btn" onclick="switchTab(event, 'contatos')">👥 Contatos de Confiança</button></li>
+                    <li><button class="sidebar-btn" onclick="switchTab(event, 'config')">⚙️ Segurança e PIN</button></li>
+                </ul>
+                <button class="btn-logout" onclick="logout()">Sair do App</button>
+            </aside>
+
+            <main class="content-area">
+                
+                <section id="emergencia" class="tab-content">
+                    <div class="dashboard-header">
+                        <h2>Disparo Rápido de Emergência</h2>
+                        <p>O acionamento via botão captura as coordenadas e notifica os contatos de confiança cadastrados.</p>
+                    </div>
+
+                    <div class="agency-card alert-zone">
+                        <button class="btn-agency-emergency" onclick="triggerAlert()">🚨 DISPARAR ALERTA DE SOCORRO</button>
+                        <br>
+                        <div id="alert-status" class="status-badge hidden">
+                            ● ALERTA ATIVO — Geolocalização (-23.4209, -51.9330) registrada e transmitida para 2 contatos de confiança.
+                        </div>
+                    </div>
+                </section>
+
+                <section id="provas" class="tab-content hidden">
+                    <div class="dashboard-header">
+                        <h2>Cofre Digital de Evidências (Cadeia de Custódia)</h2>
+                        <p>Armazenamento imutável de fotos, áudios e relatos com geração de Hash SHA-256 para validade jurídica.</p>
+                    </div>
+
+                    <div class="agency-card">
+                        <div class="form-row">
+                            <input type="file" id="file-input" class="agency-input">
+                            <button class="btn-agency-primary" onclick="uploadProof()">Anexar ao Cofre</button>
+                        </div>
+                        
+                        <table class="agency-table">
+                            <thead>
+                                <tr>
+                                    <th>Arquivo</th>
+                                    <th>Data / Hora</th>
+                                    <th>Hash SHA-256 de Integridade</th>
+                                </tr>
+                            </thead>
+                            <tbody id="proof-list">
+                                <tr>
+                                    <td>foto_ocorrencia_1.jpg</td>
+                                    <td>17/09/2026 08:30</td>
+                                    <td><code>e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495...</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section id="ia" class="tab-content hidden">
+                    <div class="dashboard-header">
+                        <h2>Orientação Jurídica & Direitos (RAG Local)</h2>
+                        <p>Consultas privadas processadas sem envio de dados para servidores externos (Lei Maria da Penha / Rede Maringá).</p>
+                    </div>
+
+                    <div class="agency-card">
+                        <div class="chat-container" id="chat-box">
+                            <div class="chat-msg system">
+                                Assistente virtual pronta. Como posso ajudar com orientação sobre medidas protetivas ou locais de atendimento em Maringá/PR?
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <input type="text" id="chat-input" class="agency-input" placeholder="Ex: Onde fica a DEAM em Maringá? Como pedir medida protetiva?">
+                            <button class="btn-agency-primary" onclick="sendMessage()">Consultar</button>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="contatos" class="tab-content hidden">
+                    <div class="dashboard-header">
+                        <h2>Contatos de Confiança Cadastrados</h2>
+                        <p>Pessoas que receberão notificações de socorro e localização em situações de risco.</p>
+                    </div>
+
+                    <div class="agency-card">
+                        <table class="agency-table">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Parentesco / Vínculo</th>
+                                    <th>Telefone / WhatsApp</th>
+                                </tr>
+                            </thead>
+                            <tbody id="contact-list">
+                                <tr>
+                                    <td>Maria Silva</td>
+                                    <td>Irmã</td>
+                                    <td>(44) 99999-1111</td>
+                                </tr>
+                                <tr>
+                                    <td>Ana Souza</td>
+                                    <td>Amiga</td>
+                                    <td>(44) 98888-2222</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="form-row" style="margin-top: 20px;">
+                            <input type="text" id="new-contact-name" class="agency-input" placeholder="Nome completo">
+                            <input type="text" id="new-contact-phone" class="agency-input" placeholder="Telefone (44) 9...">
+                            <button class="btn-agency-primary" onclick="addContact()">Adicionar Contato</button>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="config" class="tab-content hidden">
+                    <div class="dashboard-header">
+                        <h2>Configurações de Segurança e Privacidade</h2>
+                        <p>Gerencie credenciais de acesso, PIN de liberação rápida e opções do modo disfarce.</p>
+                    </div>
+
+                    <div class="agency-card">
+                        <h3>PIN de Acesso Rápido</h3>
+                        <p style="font-size: 0.85rem; color: var(--agency-text-secondary); margin-bottom: 10px;">Defina um código numérico de 4 dígitos para autorizar a abertura do app real.</p>
+                        <div class="form-row">
+                            <input type="password" class="agency-input" placeholder="Novo PIN (ex: 4092)" maxlength="4" style="max-width: 200px;">
+                            <button class="btn-agency-primary" onclick="alert('PIN de segurança atualizado com sucesso!')">Atualizar PIN</button>
+                        </div>
+                    </div>
+                </section>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- LÓGICA EM JAVASCRIPT                                                    -->
+    <!-- ======================================================================= -->
+    <script>
+        // Lógica de Login e Segurança
+        function handleLogin() {
+            const pin = document.getElementById('login-pin').value;
+            if (pin !== '') {
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('app-screen').classList.remove('hidden');
+            } else {
+                openDisguiseDirectly();
+            }
+        }
+
+        function openDisguiseDirectly() {
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('disguise-screen').classList.remove('hidden');
+        }
+
+        function logout() {
+            document.getElementById('app-screen').classList.add('hidden');
+            document.getElementById('disguise-screen').classList.add('hidden');
+            document.getElementById('login-screen').classList.remove('hidden');
+            document.getElementById('login-pin').value = '';
+        }
+
+        // Navegação entre abas
+        function switchTab(event, tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+            document.querySelectorAll('.sidebar-btn').forEach(btn => btn.classList.remove('active'));
+
+            document.getElementById(tabId).classList.remove('hidden');
+            event.currentTarget.classList.add('active');
+        }
+
+        // Modo Disfarce
+        function toggleDisguise() {
+            document.getElementById('app-screen').classList.toggle('hidden');
+            document.getElementById('disguise-screen').classList.toggle('hidden');
+        }
+
+        // Disparo de Emergência
+        function triggerAlert() {
+            document.getElementById('alert-status').classList.remove('hidden');
+        }
+
+        // Anexo de Provas (Geração Simulada de Hash SHA-256)
+        function uploadProof() {
+            const input = document.getElementById('file-input');
+            const list = document.getElementById('proof-list');
+
+            if (input.files.length > 0) {
+                const fileName = input.files[0].name;
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${fileName}</td>
+                    <td>Agora</td>
+                    <td><code>8f434346648f6b96df89dda901c5176b10a6d83961dd3c1a...</code></td>
+                `;
+                list.appendChild(row);
+                input.value = '';
+            }
+        }
+
+        // Chat RAG
+        function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const chatBox = document.getElementById('chat-box');
+
+            if (input.value.trim() !== '') {
+                const userMsg = document.createElement('div');
+                userMsg.className = 'chat-msg user';
+                userMsg.innerText = input.value;
+                chatBox.appendChild(userMsg);
+
+                const query = input.value.toLowerCase();
+                input.value = '';
+
+                setTimeout(() => {
+                    const sysMsg = document.createElement('div');
+                    sysMsg.className = 'chat-msg system';
+
+                    if (query.includes('delegacia') || query.includes('maringá') || query.includes('onde')) {
+                        sysMsg.innerText = "DEAM Maringá: Av. Mandacaru, 280 - Vila Santa Izabel. Atendimento para registro de ocorrência e suporte.";
+                    } else if (query.includes('medida') || query.includes('protetiva')) {
+                        sysMsg.innerText = "Medidas protetivas podem ser requeridas na DEAM e determinam o afastamento do agressor.";
+                    } else {
+                        sysMsg.innerText = "Em situações de emergência iminente, contate o 190 (Polícia Militar) ou 180.";
+                    }
+
+                    chatBox.appendChild(sysMsg);
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                }, 400);
+            }
+        }
+
+        // Adicionar Contato de Confiança
+        function addContact() {
+            const name = document.getElementById('new-contact-name').value;
+            const phone = document.getElementById('new-contact-phone').value;
+            const list = document.getElementById('contact-list');
+
+            if (name && phone) {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${name}</td><td>Contato de Confiança</td><td>${phone}</td>`;
+                list.appendChild(row);
+                document.getElementById('new-contact-name').value = '';
+                document.getElementById('new-contact-phone').value = '';
+            }
+        }
+
+        // Lógica do Cardápio (Modo Disfarce)
+        let cart = [];
+        let total = 0;
+
+        function filterCategory(cat) {
+            document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            document.querySelectorAll('.dish-card').forEach(card => {
+                if (cat === 'todos' || card.dataset.cat === cat) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        function addToCart(title, price) {
+            cart.push({ title, price });
+            total += price;
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const cartList = document.getElementById('cart-items');
+            const totalElement = document.getElementById('cart-total-value');
+
+            cartList.innerHTML = '';
+            cart.forEach(item => {
+                const li = document.createElement('li');
+                li.className = 'cart-item';
+                li.innerHTML = `<span>${item.title}</span> <strong>R$ ${item.price.toFixed(2)}</strong>`;
+                cartList.appendChild(li);
+            });
+
+            totalElement.innerText = `R$ ${total.toFixed(2)}`;
+        }
+
+        function sendOrder() {
+            if (cart.length > 0) {
+                alert("Pedido enviado para a cozinha com sucesso!");
+                cart = [];
+                total = 0;
+                updateCartUI();
+                document.getElementById('cart-items').innerHTML = '<li style="color: var(--menu-text-muted); font-size: 0.85rem;">Seu pedido está vazio.</li>';
+            } else {
+                alert("Selecione ao menos um item no cardápio antes de enviar.");
+            }
+        }
+    </script>
+</body>
+</html>
