@@ -1,7 +1,6 @@
 -- ============================================================
 -- REDE MULHER SEGURA — Banco de Dados
 -- Versão: SUPABASE (PostgreSQL)
--- Baseado no DER e no Dicionário de Dados do projeto
 -- ============================================================
 
 -- Extensão usada para gerar UUIDs (recomendado no Supabase,
