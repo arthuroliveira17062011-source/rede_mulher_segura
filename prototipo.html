@@ -47,30 +47,30 @@
         }
 
         /* ==========================================================================
-           0. TELA DE LOGIN / AUTENTICAÇÃO (COM PALETA DO RESTAURANTE SIMPLES)
+           0. TELA DE AUTENTICAÇÃO E CADASTRO (PALETA RESTAURANTE SIMPLES)
            ========================================================================== */
-        #login-screen {
+        #auth-screen {
             background-color: var(--menu-bg);
             color: var(--menu-dark);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 30px 20px;
         }
 
-        .login-card {
+        .auth-card {
             background-color: var(--menu-surface);
             border: 1px solid var(--menu-border);
             border-radius: 12px;
             padding: 32px 28px;
             width: 100%;
-            max-width: 400px;
+            max-width: 520px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
             text-align: center;
         }
 
-        .login-brand {
+        .auth-brand {
             font-family: 'Roboto', sans-serif;
             font-size: 1.8rem;
             font-weight: 700;
@@ -78,24 +78,66 @@
             margin-bottom: 6px;
         }
 
-        .login-subtitle {
+        .auth-subtitle {
             font-size: 0.9rem;
             color: var(--menu-text-muted);
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
 
-        .login-form {
+        /* Abas de Alternância (Login / Cadastro) */
+        .auth-tabs {
             display: flex;
-            flex-direction: column;
-            gap: 16px;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--menu-border);
+            padding-bottom: 10px;
+        }
+
+        .auth-tab-btn {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--menu-text-muted);
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .auth-tab-btn.active {
+            background: var(--menu-primary);
+            color: white;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
             text-align: left;
         }
 
-        .login-label {
-            font-size: 0.85rem;
+        @media (max-width: 480px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-group-full {
+            grid-column: span 2;
+        }
+
+        @media (max-width: 480px) {
+            .form-group-full {
+                grid-column: span 1;
+            }
+        }
+
+        .auth-label {
+            font-size: 0.82rem;
             color: var(--menu-dark);
             font-weight: 600;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             display: block;
         }
 
@@ -105,7 +147,7 @@
             color: var(--menu-dark);
             padding: 10px 12px;
             border-radius: 6px;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             width: 100%;
             outline: none;
             transition: border-color 0.2s ease;
@@ -115,14 +157,14 @@
             border-color: var(--menu-primary);
         }
 
-        .login-btn-group {
+        .auth-btn-group {
             display: flex;
             flex-direction: column;
             gap: 10px;
-            margin-top: 10px;
+            margin-top: 18px;
         }
 
-        .btn-login-main {
+        .btn-auth-main {
             background: var(--menu-primary);
             color: #ffffff;
             border: none;
@@ -135,31 +177,12 @@
             width: 100%;
         }
 
-        .btn-login-main:hover {
+        .btn-auth-main:hover {
             background: #991b1b;
         }
 
-        .btn-login-secondary {
-            background: transparent;
-            color: var(--menu-dark);
-            border: 1px solid var(--menu-border);
-            padding: 10px;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            width: 100%;
-            text-align: center;
-        }
-
-        .btn-login-secondary:hover {
-            background: var(--menu-bg);
-            border-color: var(--menu-dark);
-        }
-
         /* ==========================================================================
-           1. MODO DISFARCE: CARDÁPIO SIMPLES & CASEIRO
+           1. MODO DISFARCE: CARDÁPIO RESTAURANTE SIMPLES
            ========================================================================== */
         #disguise-screen {
             background-color: var(--menu-bg);
@@ -635,30 +658,77 @@
 <body>
 
     <!-- ======================================================================= -->
-    <!-- 0. TELA DE LOGIN DE ACESSO PROTEGIDO                                    -->
+    <!-- 0. TELA DE AUTENTICAÇÃO E CADASTRO COMPLETO                             -->
     <!-- ======================================================================= -->
-    <div id="login-screen">
-        <div class="login-card">
-            <div class="login-brand">
+    <div id="auth-screen">
+        <div class="auth-card">
+            <div class="auth-brand">
                 Restaurante Sabor Caseiro
             </div>
-            <p class="login-subtitle">Acesso ao Sistema de Pedidos & Marmitas</p>
-            
-            <div class="login-form">
-                <div>
-                    <label class="login-label">Usuário / CPF Cadastrado</label>
-                    <input type="text" id="login-user" class="gourmet-input" placeholder="000.000.000-00">
-                </div>
-                <div>
-                    <label class="login-label">PIN de Acesso (4 dígitos)</label>
-                    <input type="password" id="login-pin" class="gourmet-input" placeholder="••••" maxlength="8">
+            <p class="auth-subtitle">Acesso ao Sistema de Pedidos & Marmitas</p>
+
+            <!-- NAVEGAÇÃO DE ABAS ENTRE LOGIN E CADASTRO -->
+            <div class="auth-tabs">
+                <button class="auth-tab-btn active" onclick="switchAuthTab('login')">Entrar na Conta</button>
+                <button class="auth-tab-btn" onclick="switchAuthTab('cadastro')">Cadastro Completo</button>
+            </div>
+
+            <!-- FORMULÁRIO DE LOGIN -->
+            <form id="form-login" onsubmit="handleLogin(event)">
+                <div class="form-grid">
+                    <div class="form-group-full">
+                        <label class="auth-label">CPF ou E-mail Cadastrado</label>
+                        <input type="text" id="login-user" class="gourmet-input" placeholder="000.000.000-00" required>
+                    </div>
+                    <div class="form-group-full">
+                        <label class="auth-label">Senha de Acesso</label>
+                        <input type="password" id="login-pass" class="gourmet-input" placeholder="Sua senha" required>
+                    </div>
                 </div>
 
-                <div class="login-btn-group">
-                    <button class="btn-login-main" onclick="handleLogin()">Entrar no Sistema</button>
-                    <button class="btn-login-secondary" onclick="openDisguiseDirectly()">Ver Cardápio do Dia</button>
+                <div class="auth-btn-group">
+                    <button type="submit" class="btn-auth-main">Entrar no Sistema</button>
                 </div>
-            </div>
+            </form>
+
+            <!-- FORMULÁRIO DE CADASTRO DETALHADO -->
+            <form id="form-cadastro" class="hidden" onsubmit="handleRegister(event)">
+                <div class="form-grid">
+                    <div class="form-group-full">
+                        <label class="auth-label">Nome Completo</label>
+                        <input type="text" id="reg-nome" class="gourmet-input" placeholder="Ex: Maria da Silva" required>
+                    </div>
+                    <div>
+                        <label class="auth-label">CPF</label>
+                        <input type="text" id="reg-cpf" class="gourmet-input" placeholder="000.000.000-00" required>
+                    </div>
+                    <div>
+                        <label class="auth-label">Data de Nascimento</label>
+                        <input type="date" id="reg-nascimento" class="gourmet-input" required>
+                    </div>
+                    <div>
+                        <label class="auth-label">Celular / WhatsApp</label>
+                        <input type="tel" id="reg-telefone" class="gourmet-input" placeholder="(44) 99999-0000" required>
+                    </div>
+                    <div>
+                        <label class="auth-label">E-mail</label>
+                        <input type="email" id="reg-email" class="gourmet-input" placeholder="seu@email.com" required>
+                    </div>
+                    <div class="form-group-full">
+                        <label class="auth-label">Endereço Residencial Completo</label>
+                        <input type="text" id="reg-endereco" class="gourmet-input" placeholder="Rua, Número, Bairro, Cidade/PR" required>
+                    </div>
+                    <div class="form-group-full">
+                        <label class="auth-label">Senha de Acesso</label>
+                        <input type="password" id="reg-senha" class="gourmet-input" placeholder="Sua senha" required>
+                    </div>
+                </div>
+
+                <div class="auth-btn-group">
+                    <button type="submit" class="btn-auth-main">Finalizar Cadastro</button>
+                </div>
+            </form>
+
         </div>
     </div>
 
@@ -813,7 +883,7 @@
                     <li><button class="sidebar-btn" onclick="switchTab(event, 'provas')">📁 Cofre de Evidências</button></li>
                     <li><button class="sidebar-btn" onclick="switchTab(event, 'ia')">🤖 Assistente RAG (IA Local)</button></li>
                     <li><button class="sidebar-btn" onclick="switchTab(event, 'contatos')">👥 Contatos de Confiança</button></li>
-                    <li><button class="sidebar-btn" onclick="switchTab(event, 'config')">⚙️ Segurança e PIN</button></li>
+                    <li><button class="sidebar-btn" onclick="switchTab(event, 'config')">⚙️ Configurações</button></li>
                 </ul>
                 <button class="btn-logout" onclick="logout()">Sair do App</button>
             </aside>
@@ -924,16 +994,16 @@
 
                 <section id="config" class="tab-content hidden">
                     <div class="dashboard-header">
-                        <h2>Configurações de Segurança e Privacidade</h2>
-                        <p>Gerencie credenciais de acesso, PIN de liberação rápida e opções do modo disfarce.</p>
+                        <h2>Configurações do Perfil</h2>
+                        <p>Gerencie suas credenciais e opções da sua conta.</p>
                     </div>
 
                     <div class="agency-card">
-                        <h3>PIN de Acesso Rápido</h3>
-                        <p style="font-size: 0.85rem; color: var(--agency-text-secondary); margin-bottom: 10px;">Defina um código numérico de 4 dígitos para autorizar a abertura do app real.</p>
+                        <h3>Alterar Senha</h3>
+                        <p style="font-size: 0.85rem; color: var(--agency-text-secondary); margin-bottom: 10px;">Atualize sua senha de acesso ao sistema.</p>
                         <div class="form-row">
-                            <input type="password" class="agency-input" placeholder="Novo PIN (ex: 4092)" maxlength="4" style="max-width: 200px;">
-                            <button class="btn-agency-primary" onclick="alert('PIN de segurança atualizado com sucesso!')">Atualizar PIN</button>
+                            <input type="password" class="agency-input" placeholder="Nova senha" style="max-width: 280px;">
+                            <button class="btn-agency-primary" onclick="alert('Senha atualizada com sucesso!')">Atualizar Senha</button>
                         </div>
                     </div>
                 </section>
@@ -946,30 +1016,48 @@
     <!-- LÓGICA EM JAVASCRIPT                                                    -->
     <!-- ======================================================================= -->
     <script>
-        // Lógica de Login e Segurança
-        function handleLogin() {
-            const pin = document.getElementById('login-pin').value;
-            if (pin !== '') {
-                document.getElementById('login-screen').classList.add('hidden');
-                document.getElementById('app-screen').classList.remove('hidden');
+        // Alternância de Abas na Autenticação (Login / Cadastro)
+        function switchAuthTab(mode) {
+            const btnLogin = document.querySelectorAll('.auth-tab-btn')[0];
+            const btnCadastro = document.querySelectorAll('.auth-tab-btn')[1];
+            const formLogin = document.getElementById('form-login');
+            const formCadastro = document.getElementById('form-cadastro');
+
+            if (mode === 'login') {
+                btnLogin.classList.add('active');
+                btnCadastro.classList.remove('active');
+                formLogin.classList.remove('hidden');
+                formCadastro.classList.add('hidden');
             } else {
-                openDisguiseDirectly();
+                btnCadastro.classList.add('active');
+                btnLogin.classList.remove('active');
+                formCadastro.classList.remove('hidden');
+                formLogin.classList.add('hidden');
             }
         }
 
-        function openDisguiseDirectly() {
-            document.getElementById('login-screen').classList.add('hidden');
-            document.getElementById('disguise-screen').classList.remove('hidden');
+        // Lógica de Login
+        function handleLogin(event) {
+            event.preventDefault();
+            document.getElementById('auth-screen').classList.add('hidden');
+            document.getElementById('app-screen').classList.remove('hidden');
+        }
+
+        // Lógica de Cadastro
+        function handleRegister(event) {
+            event.preventDefault();
+            alert("Cadastro realizado com sucesso! Acessando área protegida...");
+            document.getElementById('auth-screen').classList.add('hidden');
+            document.getElementById('app-screen').classList.remove('hidden');
         }
 
         function logout() {
             document.getElementById('app-screen').classList.add('hidden');
             document.getElementById('disguise-screen').classList.add('hidden');
-            document.getElementById('login-screen').classList.remove('hidden');
-            document.getElementById('login-pin').value = '';
+            document.getElementById('auth-screen').classList.remove('hidden');
         }
 
-        // Navegação entre abas
+        // Navegação entre abas do Painel
         function switchTab(event, tabId) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
             document.querySelectorAll('.sidebar-btn').forEach(btn => btn.classList.remove('active'));
@@ -1007,7 +1095,7 @@
             }
         }
 
-        // Chat RAG
+        // Chat RAG Local
         function sendMessage() {
             const input = document.getElementById('chat-input');
             const chatBox = document.getElementById('chat-box');
