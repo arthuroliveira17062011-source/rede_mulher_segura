@@ -1,1 +1,448 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurante Sabor Caseiro | Cardápio Digital</title>
+    <style>
+        /* Reset Básico */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
+        body {
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* ================= Estilos do Disfarce (Restaurante) ================= */
+        .restaurant-header {
+            background-color: #d97706;
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+
+        .restaurant-header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .menu-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .menu-container h2 {
+            text-align: center;
+            color: #92400e;
+            margin-bottom: 1.5rem;
+        }
+
+        .menu-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .menu-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-left: 5px solid #d97706;
+        }
+
+        .menu-card h3 {
+            font-size: 1.1rem;
+            color: #1f2937;
+        }
+
+        .menu-card p {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin: 0.5rem 0;
+        }
+
+        .menu-card .price {
+            font-weight: bold;
+            color: #d97706;
+        }
+
+        .secret-access-container {
+            margin-top: 2.5rem;
+            text-align: center;
+        }
+
+        #secret-btn {
+            background: none;
+            border: none;
+            color: #9ca3af;
+            font-size: 0.85rem;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        /* ================= Estilos da App Real (Rede Mulher Segura) ================= */
+        .app-header {
+            background-color: #1e1b4b;
+            color: white;
+            padding: 1.5rem 1rem;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .app-header h1 {
+            font-size: 1.3rem;
+        }
+
+        .camouflaged-exit {
+            background-color: #312e81;
+            color: #e0e7ff;
+            border: 1px solid #4338ca;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .app-header p {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #a5b4fc;
+            margin-top: 0.5rem;
+        }
+
+        .app-container {
+            max-width: 700px;
+            margin: 1.5rem auto;
+            padding: 0 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        /* Módulo de Emergência */
+        .emergency-section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid #fee2e2;
+            text-align: center;
+        }
+
+        .emergency-section h2 {
+            color: #991b1b;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .emergency-section p {
+            font-size: 0.85rem;
+            color: #4b5563;
+            margin-bottom: 1.2rem;
+        }
+
+        .emergency-btn {
+            background-color: #dc2626;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 1rem;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+            transition: background 0.2s;
+        }
+
+        .emergency-btn:active {
+            background-color: #991b1b;
+        }
+
+        .status-box {
+            margin-top: 1rem;
+            padding: 0.8rem;
+            border-radius: 6px;
+            background-color: #f8fafc;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-align: left;
+        }
+
+        /* Módulo da IA / Chat */
+        .ai-section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .ai-section h2 {
+            color: #1e1b4b;
+            font-size: 1.1rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .privacy-note {
+            font-size: 0.75rem;
+            color: #059669;
+            margin-bottom: 1rem;
+        }
+
+        .chat-box {
+            height: 220px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 0.8rem;
+            overflow-y: auto;
+            background-color: #f9fafb;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .chat-message {
+            font-size: 0.85rem;
+            line-height: 1.4;
+            padding: 0.6rem 0.8rem;
+            border-radius: 6px;
+            max-width: 90%;
+        }
+
+        .chat-message.bot {
+            background-color: #e0e7ff;
+            color: #1e1b4b;
+            align-self: flex-start;
+        }
+
+        .chat-message.user {
+            background-color: #4f46e5;
+            color: white;
+            align-self: flex-end;
+        }
+
+        .chat-input-container {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.8rem;
+        }
+
+        .chat-input-container input {
+            flex: 1;
+            padding: 0.6rem;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 0.85rem;
+        }
+
+        .chat-input-container button {
+            background-color: #4f46e5;
+            color: white;
+            border: none;
+            padding: 0.6rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==================== INTERFACE DE DISFARCE (RESTAURANTE) ==================== -->
+    <div id="disguise-ui">
+        <header class="restaurant-header">
+            <h1>🍲 Restaurante Sabor Caseiro</h1>
+            <p>O verdadeiro sabor da comida caseira na sua mesa!</p>
+        </header>
+
+        <main class="menu-container">
+            <h2>Cardápio do Dia</h2>
+            
+            <div class="menu-grid">
+                <div class="menu-card">
+                    <h3>Prato Feito Tradicional</h3>
+                    <p>Arroz, feijão, bife acebolado, batata frita e salada.</p>
+                    <span class="price">R$ 22,00</span>
+                </div>
+
+                <div class="menu-card">
+                    <h3>Marmita Executiva - Frango</h3>
+                    <p>Arroz integral, feijão, filé de frango grelhado e legumes.</p>
+                    <span class="price">R$ 20,00</span>
+                </div>
+
+                <div class="menu-card">
+                    <h3>Feijoada Completa (Sábado)</h3>
+                    <p>Acompanha couve refogada, farofa, torresmo e laranja.</p>
+                    <span class="price">R$ 35,00</span>
+                </div>
+            </div>
+
+            <!-- Botão Secreto de Acesso ao Sistema de Proteção -->
+            <div class="secret-access-container">
+                <button id="secret-btn" onclick="toggleInterface()">
+                    📌 Ver Sobremesas do Dia
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <!-- ==================== INTERFACE REAL (REDE MULHER SEGURA) ==================== -->
+    <div id="safe-ui" class="hidden">
+        <header class="app-header">
+            <div class="header-top">
+                <h1>🛡️ REDE MULHER SEGURA</h1>
+                <button class="camouflaged-exit" onclick="toggleInterface()">🔒 Voltar ao Cardápio</button>
+            </div>
+            <p>Espaço confidencial de apoio, emergência e orientação legal.</p>
+        </header>
+
+        <main class="app-container">
+            <!-- Módulo de Emergência -->
+            <section class="emergency-section">
+                <h2>🚨 Socorro Imediato</h2>
+                <p>Ao clicar no botão abaixo, o sistema solicitará permissão para capturar sua localização exata e enviará um alerta para seus contatos de confiança.</p>
+                
+                <button class="emergency-btn" onclick="triggerAlert()">
+                    DISPARAR ALERTA DE SOCORRO
+                </button>
+
+                <div id="alert-status" class="status-box hidden"></div>
+            </section>
+
+            <!-- Módulo de Assistência Jurídica (IA Local / RAG) -->
+            <section class="ai-section">
+                <h2>💬 Assistente Virtual (Lei Maria da Penha)</h2>
+                <p class="privacy-note">🔒 Atendimento 100% privado e processado localmente no dispositivo.</p>
+                
+                <div class="chat-box" id="chat-box">
+                    <div class="chat-message bot">
+                        <strong>Assistente:</strong> Olá! Posso tirar suas dúvidas sobre a Lei Maria da Penha, medidas protetivas e locais de atendimento (como a DEAM de Maringá). Como posso ajudar?
+                    </div>
+                </div>
+
+                <div class="chat-input-container">
+                    <input type="text" id="user-input" placeholder="Digite sua dúvida jurídica aqui..." onkeypress="handleKeyPress(event)">
+                    <button onclick="sendMessage()">Enviar</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Alternar entre a interface disfarçada e a aplicação real
+        function toggleInterface() {
+            const disguiseUI = document.getElementById('disguise-ui');
+            const safeUI = document.getElementById('safe-ui');
+
+            if (safeUI.classList.contains('hidden')) {
+                disguiseUI.classList.add('hidden');
+                safeUI.classList.remove('hidden');
+            } else {
+                safeUI.classList.add('hidden');
+                disguiseUI.classList.remove('hidden');
+            }
+        }
+
+        // Acionamento do Alerta com API de Geolocalização Nativa do Navegador
+        function triggerAlert() {
+            const statusDiv = document.getElementById('alert-status');
+
+            if ("geolocation" in navigator) {
+                statusDiv.classList.remove('hidden');
+                statusDiv.style.color = '#f59e0b';
+                statusDiv.innerText = "● Solicitando permissão de localização do dispositivo...";
+
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const latitude = position.coords.latitude;
+                        const longitude = position.coords.longitude;
+
+                        statusDiv.style.color = '#10b981';
+                        statusDiv.innerText = `● ALERTA ATIVO — Geolocalização obtida (${latitude.toFixed(4)}, ${longitude.toFixed(4)}) e transmitida para os contatos de confiança.`;
+                    },
+                    function(error) {
+                        statusDiv.style.color = '#ef4444';
+                        switch(error.code) {
+                            case error.PERMISSION_DENIED:
+                                statusDiv.innerText = "● ALERTA ENVIADO SEM GPS — Permissão de localização foi negada no navegador.";
+                                break;
+                            case error.POSITION_UNAVAILABLE:
+                                statusDiv.innerText = "● ALERTA ENVIADO SEM GPS — Informação de localização indisponível no dispositivo.";
+                                break;
+                            case error.TIMEOUT:
+                                statusDiv.innerText = "● ALERTA ENVIADO SEM GPS — Tempo limite esgotado ao buscar localização.";
+                                break;
+                            default:
+                                statusDiv.innerText = "● ALERTA ENVIADO SEM GPS — Erro ao obter coordenadas.";
+                                break;
+                        }
+                    },
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 0
+                    }
+                );
+            } else {
+                statusDiv.classList.remove('hidden');
+                statusDiv.style.color = '#ef4444';
+                statusDiv.innerText = "● ALERTA ENVIADO — Geolocalização não é suportada por este navegador.";
+            }
+        }
+
+        // Envio de mensagens no Chat do Assistente IA
+        function sendMessage() {
+            const input = document.getElementById('user-input');
+            const chatBox = document.getElementById('chat-box');
+            const messageText = input.value.trim();
+
+            if (messageText === "") return;
+
+            // Mensagem da usuária
+            const userMsgDiv = document.createElement('div');
+            userMsgDiv.className = 'chat-message user';
+            userMsgDiv.innerHTML = `<strong>Você:</strong> ${messageText}`;
+            chatBox.appendChild(userMsgDiv);
+
+            input.value = "";
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // Simulação de resposta do RAG Local
+            setTimeout(() => {
+                const botMsgDiv = document.createElement('div');
+                botMsgDiv.className = 'chat-message bot';
+                
+                let botResponse = "Com base na Lei Maria da Penha (Lei 11.340/06), você tem direito a medidas protetivas de urgência. Em Maringá/PR, você pode procurar a Delegacia Especializada no Atendimento à Mulher (DEAM) ou ligar para o 180.";
+                
+                botMsgDiv.innerHTML = `<strong>Assistente:</strong> ${botResponse}`;
+                chatBox.appendChild(botMsgDiv);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 800);
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+    </script>
+</body>
+</html>
