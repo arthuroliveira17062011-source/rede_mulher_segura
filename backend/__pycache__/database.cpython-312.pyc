@@ -1,0 +1,42 @@
+from datetime import date
+from uuid import UUID
+from pydantic import BaseModel, ConfigDict, EmailStr # type: ignore
+
+
+# --- SCHEMAS DE USUÁRIA ---
+class UsuariaCreate(BaseModel):
+    nome_completo: str
+    cpf: str
+    email: EmailStr
+    telefone_celular: str
+    data_nascimento: date
+    endereco_residencia: str | None = None
+    senha_hash: str
+    frase_chave: str | None = None
+
+
+class UsuariaResponse(BaseModel):
+    id_usuario: UUID
+    nome_completo: str
+    email: str
+    telefone_celular: str
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+# --- SCHEMAS DE CONTATO DE EMERGÊNCIA ---
+class ContatoEmergenciaCreate(BaseModel):
+    id_usuario: UUID
+    nome_completo: str
+    telefone_whatsapp: str
+    prioridade_notificacao: int
+
+
+class ContatoEmergenciaResponse(BaseModel):
+    id_contato: UUID
+    nome_completo: str
+    telefone_whatsapp: str
+    prioridade_notificacao: int
+    usuaria: str
+
+    model_config = ConfigDict(from_attributes=True)
