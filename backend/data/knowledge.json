@@ -1,1 +1,78 @@
-
+{
+  "aviso": "Conteúdo informativo. Confirme endereços, telefones e horários locais antes de divulgar — edite este arquivo para adicionar os serviços reais de Maringá/PR.",
+  "entradas": [
+    {
+      "id": "emergencia",
+      "titulo": "Estou em perigo agora",
+      "palavras": ["perigo", "socorro", "emergencia", "urgente", "agora", "ameaca", "ameacando", "violencia", "agredida", "bater", "batendo", "policia", "190", "ajuda"],
+      "texto": "Se você está em perigo imediato, ligue 190 (Polícia Militar) — se não puder falar, use o botão de alerta deste app para avisar seus contatos de confiança. Tente ir para um lugar com saída (evite cozinha, banheiro e garagem) e, se possível, para a casa de alguém de confiança. O Ligue 180 (gratuito, 24 horas) também orienta e encaminha."
+    },
+    {
+      "id": "ligue180",
+      "titulo": "Ligue 180",
+      "palavras": ["180", "ligue", "central", "telefone", "denuncia", "denunciar", "anonima", "whatsapp", "orientacao"],
+      "texto": "O Ligue 180 é a Central de Atendimento à Mulher: gratuito, funciona 24 horas, todos os dias, e atende mulheres em situação de violência, com orientação e encaminhamento à rede de proteção. Também é possível usar o canal de WhatsApp do Ligue 180 — confirme o número atualizado no site oficial do Governo Federal."
+    },
+    {
+      "id": "deam",
+      "titulo": "Delegacia da Mulher (DEAM)",
+      "palavras": ["deam", "delegacia", "boletim", "bo", "registrar", "ocorrencia", "queixa", "onde", "fica", "maringa", "endereco"],
+      "texto": "A Delegacia de Atendimento à Mulher (DEAM) registra ocorrências de violência doméstica e pode solicitar medidas protetivas. Se não puder ir à DEAM, o registro também pode ser feito em qualquer delegacia, e há a Delegacia Eletrônica da Polícia Civil do Paraná para alguns casos. Confirme endereço e horário atuais da DEAM de Maringá (cadastre-os em data/knowledge.json)."
+    },
+    {
+      "id": "medida-protetiva",
+      "titulo": "Medida protetiva de urgência",
+      "palavras": ["medida", "medidas", "protetiva", "protetivas", "afastamento", "agressor", "proibir", "aproximar", "pedir", "solicitar", "juiz", "48", "horas"],
+      "texto": "A medida protetiva de urgência (Lei Maria da Penha, Lei 11.340/2006) pode afastar o agressor do lar, proibir que ele se aproxime de você e dos seus familiares e proibir contato. Você pode pedir na delegacia, sem precisar de advogado; o juiz deve decidir em até 48 horas. Desde a Lei 14.550/2023, a concessão não depende de boletim de ocorrência, de ação judicial nem de o fato ser tipificado como crime. Descumprir a medida é crime (art. 24-A)."
+    },
+    {
+      "id": "tipos",
+      "titulo": "Tipos de violência",
+      "palavras": ["tipos", "tipo", "psicologica", "fisica", "sexual", "patrimonial", "moral", "controle", "humilhacao", "xingar", "ciume", "isolar", "dinheiro", "o que e"],
+      "texto": "A Lei Maria da Penha reconhece cinco formas de violência doméstica: física, psicológica (humilhação, ameaça, controle, isolamento), sexual, patrimonial (reter ou destruir documentos, bens e dinheiro) e moral (calúnia, difamação, injúria). Não é preciso haver agressão física para buscar ajuda. A violência psicológica também é crime (art. 147-B do Código Penal)."
+    },
+    {
+      "id": "evidencias",
+      "titulo": "Guardar provas",
+      "palavras": ["prova", "provas", "evidencia", "evidencias", "print", "audio", "foto", "mensagem", "mensagens", "guardar", "testemunha", "laudo", "cofre", "documentar"],
+      "texto": "Guarde prints de mensagens, áudios, fotos de lesões e de objetos danificados, receitas e laudos médicos, boletins de ocorrência e nomes de testemunhas — anote datas e horários. Não apague as conversas originais. Use o Cofre de Evidências deste app, que guarda os arquivos criptografados, e se possível mantenha uma cópia com alguém de confiança."
+    },
+    {
+      "id": "plano-seguranca",
+      "titulo": "Plano de segurança",
+      "palavras": ["plano", "seguranca", "fugir", "sair", "casa", "bolsa", "documentos", "rota", "codigo", "preparar", "abrigo"],
+      "texto": "Um plano de segurança ajuda a sair rápido: deixe com alguém de confiança uma bolsa com documentos (seus e dos filhos), cópia de chaves, dinheiro, medicamentos e carregador; combine uma palavra-código para pedir ajuda; memorize telefones importantes; saiba qual caminho e qual transporte usar. Se precisar sair de casa, a rede de proteção pode encaminhar a uma casa-abrigo — o Ligue 180 e a assistência social do município orientam."
+    },
+    {
+      "id": "rede-apoio",
+      "titulo": "Rede de apoio no município",
+      "palavras": ["cras", "creas", "referencia", "apoio", "psicologica", "psicologo", "assistente", "social", "abrigo", "casa-abrigo", "acolhimento", "rede"],
+      "texto": "O CRAS e o CREAS do município oferecem acolhimento e acompanhamento social e psicológico, e o poder público pode manter centro de referência e casa-abrigo para mulheres em risco. Procure a Secretaria de Assistência Social de Maringá para confirmar os serviços e endereços atuais (cadastre-os em data/knowledge.json)."
+    },
+    {
+      "id": "auxilio-aluguel",
+      "titulo": "Auxílio-aluguel",
+      "palavras": ["auxilio", "aluguel", "moradia", "sustento", "dependente", "financeiro"],
+      "texto": "A Lei 14.674/2023 prevê auxílio-aluguel de até seis meses para mulheres em situação de vulnerabilidade econômica afastadas do lar por violência doméstica, concedido por decisão judicial. Pergunte ao juiz, à Defensoria Pública ou à assistência social como solicitar."
+    },
+    {
+      "id": "defensoria",
+      "titulo": "Advogado gratuito",
+      "palavras": ["advogado", "advogada", "defensoria", "gratuito", "gratis", "processo", "custas", "juridico", "guarda", "pensao", "divorcio"],
+      "texto": "Se você não pode pagar advogado, a Defensoria Pública atende gratuitamente casos de violência doméstica, guarda, pensão e divórcio. Para pedir medida protetiva, advogado não é obrigatório."
+    },
+    {
+      "id": "sinal-vermelho",
+      "titulo": "Sinal Vermelho",
+      "palavras": ["sinal", "vermelho", "x", "mao", "farmacia", "comercio", "disfarcado", "pedir"],
+      "texto": "O programa Sinal Vermelho (Lei 14.188/2021) permite pedir ajuda discretamente: desenhe um X vermelho na palma da mão e mostre a um atendente em farmácias e comércios participantes, que acionam a polícia."
+    },
+    {
+      "id": "privacidade",
+      "titulo": "Privacidade digital",
+      "palavras": ["privacidade", "celular", "rastrear", "espionar", "historico", "apagar", "senha", "stalkerware", "perseguir", "monitorar", "disfarce"],
+      "texto": "Se você suspeita que o celular é monitorado, use um aparelho seguro para pedir ajuda. Troque senhas, ative verificação em duas etapas, confira apps desconhecidos e compartilhamentos de localização. Use o Modo Disfarce deste app sempre que sair da tela. Atenção: apagar o histórico pode levantar suspeitas se o agressor costuma checar o aparelho."
+    }
+  ],
+  "fallback": "Não encontrei uma resposta específica na base local. Em risco imediato, ligue 190. Para orientação, ligue 180 (gratuito, 24h). Você também pode procurar a DEAM, a Defensoria Pública ou o CRAS/CREAS do município."
+}
