@@ -1,7 +1,7 @@
 // Service worker mínimo — necessário para o navegador permitir
 // "Adicionar à tela inicial" (o atalho não aparece sem isso no Android/Chrome).
-const CACHE_NOME = "sabor-caseiro-v1";
-const ARQUIVOS_BASICOS = ["./index.html", "./manifest.json", "./icon-192.png", "./icon-512.png"];
+const CACHE_NOME = "sabor-caseiro-v2";
+const ARQUIVOS_BASICOS = ["./index.html", "./style.css", "./manifest.json", "./icon-192.png", "./icon-512.png"];
 
 self.addEventListener("install", (evento) => {
   evento.waitUntil(
