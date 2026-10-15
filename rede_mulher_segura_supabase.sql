@@ -59,23 +59,7 @@ comment on column public.ocorrencias_de_alerta.tipo_ativacao is 'Como o alerta f
 comment on column public.ocorrencias_de_alerta.link_google_maps_localizacao is 'Link com a localização exata registrada no momento do alerta';
 comment on column public.ocorrencias_de_alerta.link_compartilhamento is 'Link gerado para compartilhamento do alerta (ex: com a polícia ou contatos)';
 
--- ------------------------------------------------------------
--- 4. MIDIA_PROVAS
--- ------------------------------------------------------------
-create table public.midia_provas (
-    id_midia                 uuid primary key default gen_random_uuid(),
-    id_alerta                uuid not null references public.ocorrencias_de_alerta (id_alerta) on delete cascade,
-    id_usuario                uuid not null references public.usuaria (id_usuario) on delete cascade,
-    tipo_arquivo              text not null check (tipo_arquivo in ('audio', 'video', 'imagem')),
-    caminho_arquivo_nuvem     text not null,
-    tamanho_arquivo_bytes     bigint not null,
-    data_hora_registro        timestamptz not null default now()
-);
 
-comment on table public.midia_provas is 'Arquivos de áudio/vídeo/imagem coletados automaticamente como prova durante o alerta';
-comment on column public.midia_provas.caminho_arquivo_nuvem is 'Caminho do arquivo no Supabase Storage (bucket privado)';
-
--- ------------------------------------------------------------
 -- 5. CONFIGURACOES_DE_SEGURANCA
 -- ------------------------------------------------------------
 create table public.configuracoes_de_seguranca (
