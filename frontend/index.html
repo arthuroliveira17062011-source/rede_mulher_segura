@@ -303,13 +303,26 @@
                     </div>
 
                     <div class="agency-card alert-zone">
-                        <div class="sos-wrap">
-                            <button class="btn-agency-emergency" onclick="triggerAlert()" aria-label="Disparar alerta de socorro">
-                                <svg class="ic ic-xl"><use href="#i-siren"/></svg>
-                                <span>SOS</span>
+                        <div id="sos-idle">
+                            <div class="sos-wrap">
+                                <button class="btn-agency-emergency" onclick="iniciarContagemAlerta()" aria-label="Disparar alerta de socorro">
+                                    <svg class="ic ic-xl"><use href="#i-siren"/></svg>
+                                    <span>SOS</span>
+                                </button>
+                            </div>
+                            <p class="sos-caption">Toque para disparar o alerta de socorro</p>
+                        </div>
+
+                        <div id="sos-countdown" class="countdown-box hidden">
+                            <p class="countdown-label">Enviando alerta em</p>
+                            <p id="countdown-number" class="countdown-number">10</p>
+                            <p class="countdown-hint">Toque em cancelar se não precisar de ajuda</p>
+                            <button class="btn-cancel-alert" onclick="cancelarAlerta()">
+                                <svg class="ic"><use href="#i-logout"/></svg>
+                                Cancelar
                             </button>
                         </div>
-                        <p class="sos-caption">Toque para disparar o alerta de socorro</p>
+
                         <div id="alert-status" class="status-badge hidden">
                             <svg class="ic"><use href="#i-check"/></svg>
                             <span id="alert-status-text"></span>
@@ -353,15 +366,17 @@
                     </div>
 
                     <div class="agency-card">
-                        <table class="agency-table">
-                            <thead>
-                                <tr><th>Nome</th><th>Vínculo</th><th>Telefone / WhatsApp</th></tr>
-                            </thead>
-                            <tbody id="contact-list">
-                                <tr><td><span class="avatar">MS</span>Maria Silva</td><td>Irmã</td><td>(44) 99999-1111</td></tr>
-                                <tr><td><span class="avatar">AS</span>Ana Souza</td><td>Amiga</td><td>(44) 98888-2222</td></tr>
-                            </tbody>
-                        </table>
+                        <div class="table-scroll">
+                            <table class="agency-table">
+                                <thead>
+                                    <tr><th>Nome</th><th>Vínculo</th><th>Telefone / WhatsApp</th></tr>
+                                </thead>
+                                <tbody id="contact-list">
+                                    <tr><td><span class="avatar">MS</span>Maria Silva</td><td>Irmã</td><td>(44) 99999-1111</td></tr>
+                                    <tr><td><span class="avatar">AS</span>Ana Souza</td><td>Amiga</td><td>(44) 98888-2222</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
 
                         <div class="form-row form-row-top">
                             <input type="text" id="new-contact-name" class="agency-input" placeholder="Nome completo">

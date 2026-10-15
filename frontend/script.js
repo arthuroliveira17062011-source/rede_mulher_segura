@@ -100,10 +100,44 @@ function toggleDisguise() {
     document.getElementById('disguise-screen').classList.toggle('hidden');
 }
 
+// Contagem regressiva do SOS — dá tempo de cancelar antes de disparar de verdade
+const TEMPO_CONTAGEM_SEGUNDOS = 10;
+let contagemRestante = 0;
+let intervaloContagem = null;
+
+function iniciarContagemAlerta() {
+    contagemRestante = TEMPO_CONTAGEM_SEGUNDOS;
+
+    document.getElementById('sos-idle').classList.add('hidden');
+    document.getElementById('alert-status').classList.add('hidden');
+    document.getElementById('sos-countdown').classList.remove('hidden');
+    document.getElementById('countdown-number').innerText = contagemRestante;
+
+    clearInterval(intervaloContagem);
+    intervaloContagem = setInterval(() => {
+        contagemRestante--;
+        document.getElementById('countdown-number').innerText = contagemRestante;
+
+        if (contagemRestante <= 0) {
+            clearInterval(intervaloContagem);
+            document.getElementById('sos-countdown').classList.add('hidden');
+            triggerAlert();
+        }
+    }, 1000);
+}
+
+function cancelarAlerta() {
+    clearInterval(intervaloContagem);
+    document.getElementById('sos-countdown').classList.add('hidden');
+    document.getElementById('sos-idle').classList.remove('hidden');
+}
+
 // Disparo de Emergência com Captura de GPS + Integração WhatsApp (wa.me)
 function triggerAlert() {
     const statusDiv = document.getElementById('alert-status');
     const telefoneDEAM = "5544999999999"; // Substitua pelo número real com DDD
+
+    document.getElementById('sos-idle').classList.remove('hidden');
 
     if ("geolocation" in navigator) {
         statusDiv.classList.remove('hidden');
