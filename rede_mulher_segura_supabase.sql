@@ -3,6 +3,8 @@
 -- Versão: SUPABASE (PostgreSQL)
 -- ============================================================
 
+-- Extensão usada para gerar UUIDs (recomendado no Supabase,
+-- já que a autenticação nativa do Supabase usa UUID em auth.users)
 create extension if not exists "pgcrypto";
 
 -- ------------------------------------------------------------
@@ -10,30 +12,30 @@ create extension if not exists "pgcrypto";
 -- ------------------------------------------------------------
 create table public.usuaria (
     id_usuario           uuid primary key default gen_random_uuid(),
-    nome_completo        text not null,
-    cpf                  text not null unique,
-    email                text not null unique,
+    nome_completo         text not null,
+    cpf                   text not null unique,
+    email                 text not null unique,
     telefone_celular      text not null unique,
-    data_nascimento      date not null,
-    endereco_residencia  text,
-    senha_hash           text not null,
-    frase_chave          text,
+    data_nascimento       date not null,
+    endereco_residencia   text,
+    senha_hash            text not null,
+    frase_chave           text,
     criado_em             timestamptz not null default now()
 );
 
 comment on table public.usuaria is 'Dados cadastrais da usuária do aplicativo';
-comment on column public.usuaria.senha_hash is 'Senha criptografada usada para acessar a área segura';
+comment on column public.usuaria.senha_hash is 'Senha criptografada usada para acessar a área segura de provas';
 comment on column public.usuaria.frase_chave is 'Frase-comando usada para ativar o alerta por voz';
 
 -- ------------------------------------------------------------
 -- 2. CONTATO_EMERGENCIA
 -- ------------------------------------------------------------
 create table public.contato_emergencia (
-    id_contato              uuid primary key default gen_random_uuid(),
-    id_usuario              uuid not null references public.usuaria (id_usuario) on delete cascade,
+    id_contato             uuid primary key default gen_random_uuid(),
+    id_usuario             uuid not null references public.usuaria (id_usuario) on delete cascade,
     nome_completo           text not null,
     telefone_whatsapp       text not null,
-    prioridade_notificacao integer not null,
+    prioridade_notificacao  integer not null,
     criado_em               timestamptz not null default now()
 );
 
@@ -44,12 +46,12 @@ comment on column public.contato_emergencia.prioridade_notificacao is 'Ordem em 
 -- 3. OCORRENCIAS_DE_ALERTA
 -- ------------------------------------------------------------
 create table public.ocorrencias_de_alerta (
-    id_alerta                    uuid primary key default gen_random_uuid(),
-    id_usuario                   uuid not null references public.usuaria (id_usuario) on delete cascade,
-    data_hora_ativacao           timestamptz not null default now(),
-    tipo_ativacao                text not null check (tipo_ativacao in ('botao', 'comando_voz', 'temporizador')),
-    link_google_maps_localizacao text,
-    link_compartilhamento        text
+    id_alerta                      uuid primary key default gen_random_uuid(),
+    id_usuario                     uuid not null references public.usuaria (id_usuario) on delete cascade,
+    data_hora_ativacao             timestamptz not null default now(),
+    tipo_ativacao                  text not null check (tipo_ativacao in ('botao', 'comando_voz', 'temporizador')),
+    link_google_maps_localizacao   text,
+    link_compartilhamento          text
 );
 
 comment on table public.ocorrencias_de_alerta is 'Registro de cada vez que o alerta de socorro foi ativado';
@@ -61,11 +63,11 @@ comment on column public.ocorrencias_de_alerta.link_compartilhamento is 'Link ge
 -- 4. CONFIGURACOES_DE_SEGURANCA
 -- ------------------------------------------------------------
 create table public.configuracoes_de_seguranca (
-    id_configuracao             uuid primary key default gen_random_uuid(),
-    id_usuario                  uuid not null unique references public.usuaria (id_usuario) on delete cascade,
-    tempo_temporizador_segundo  integer,
+    id_configuracao              uuid primary key default gen_random_uuid(),
+    id_usuario                   uuid not null unique references public.usuaria (id_usuario) on delete cascade,
+    tempo_temporizador_segundo   integer,
     pin_desativado               text,
-    tema_disfarce_padrao        text default 'cardapio_restaurante'
+    tema_disfarce_padrao         text default 'cardapio_restaurante'
 );
 
 comment on table public.configuracoes_de_seguranca is 'Preferências de segurança e disfarce definidas pela usuária';
@@ -80,14 +82,17 @@ create index idx_contato_emergencia_usuario on public.contato_emergencia (id_usu
 create index idx_ocorrencias_usuario on public.ocorrencias_de_alerta (id_usuario);
 
 -- ------------------------------------------------------------
--- ROW LEVEL SECURITY (RLS)
+-- ROW LEVEL SECURITY (RECOMENDADO PARA ESTE TIPO DE APP)
 -- ------------------------------------------------------------
+-- Como os dados são sensíveis (localização, contatos),
+-- é essencial que cada usuária só enxergue os próprios dados.
+-- Isso pressupõe login via Supabase Auth, onde auth.uid() = id_usuario.
+
 alter table public.usuaria enable row level security;
 alter table public.contato_emergencia enable row level security;
 alter table public.ocorrencias_de_alerta enable row level security;
 alter table public.configuracoes_de_seguranca enable row level security;
 
--- Políticas para USUARIA
 create policy "usuaria_ve_apenas_seus_dados"
     on public.usuaria for select
     using (auth.uid() = id_usuario);
@@ -96,11 +101,6 @@ create policy "usuaria_atualiza_apenas_seus_dados"
     on public.usuaria for update
     using (auth.uid() = id_usuario);
 
-create policy "usuaria_insere_proprio_perfil"
-    on public.usuaria for insert
-    with check (auth.uid() = id_usuario);
-
--- Políticas para as demais tabelas
 create policy "contato_emergencia_por_usuaria"
     on public.contato_emergencia for all
     using (auth.uid() = id_usuario);
