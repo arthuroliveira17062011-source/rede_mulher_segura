@@ -1,0 +1,92 @@
+===============================================================
+ API PROJETO INTEGRADOR - EXEMPLOS PARA TESTAR NO /docs
+ Endereco: http://127.0.0.1:8000/docs
+===============================================================
+
+COMO USAR:
+  1. Clique na rota  >  "Try it out"
+  2. Cole o exemplo abaixo no "Request body"
+  3. Clique em "Execute" e veja o resultado em "Response body"
+  (201 = inserido, 200 = consulta feita)
+
+ORDEM: comece SEMPRE pela usuaria. Na resposta, copie o "id_usuario"
+e cole nos outros exemplos no lugar de COLE_O_ID_DA_USUARIA.
+
+---------------------------------------------------------------
+ 1) INSERIR USUARIA          POST /usuarias
+---------------------------------------------------------------
+{
+  "nome_completo": "Maria da Silva",
+  "cpf": "52998224725",
+  "email": "maria@teste.com",
+  "telefone_celular": "44999990000",
+  "data_nascimento": "1990-05-10",
+  "endereco_residencia": "Rua Exemplo, 100",
+  "senha": "senhaSegura1",
+  "frase_chave": "socorro agora"
+}
+
+---------------------------------------------------------------
+ 2) INSERIR CONTATO DE EMERGENCIA     POST /contatos-emergencia
+---------------------------------------------------------------
+{
+  "id_usuario": "COLE_O_ID_DA_USUARIA",
+  "nome_completo": "Ana Souza",
+  "telefone_whatsapp": "44988887777",
+  "prioridade_notificacao": 1
+}
+
+---------------------------------------------------------------
+ 3) REGISTRAR ALERTA          POST /alertas
+---------------------------------------------------------------
+{
+  "id_usuario": "COLE_O_ID_DA_USUARIA",
+  "tipo_ativacao": "botao",
+  "link_google_maps_localizacao": "https://maps.google.com/?q=-25.43,-49.27"
+}
+
+  tipo_ativacao aceita somente: botao, comando_voz, temporizador
+
+---------------------------------------------------------------
+ 4) CRIAR CONFIGURACOES DE SEGURANCA   POST /configuracoes-seguranca
+---------------------------------------------------------------
+{
+  "id_usuario": "COLE_O_ID_DA_USUARIA",
+  "tempo_temporizador_segundo": 60,
+  "pin_desativado": "1234",
+  "tema_disfarce_padrao": "cardapio_restaurante"
+}
+
+---------------------------------------------------------------
+ 5) ALTERAR CONFIGURACOES
+    PATCH /usuarias/{id_usuario}/configuracoes-seguranca
+---------------------------------------------------------------
+  (cole o id_usuario no campo da rota; envie so o que quer mudar)
+{
+  "tempo_temporizador_segundo": 120,
+  "tema_disfarce_padrao": "calculadora"
+}
+
+===============================================================
+ LISTAR (clique em "Execute", sem corpo)
+===============================================================
+  GET /usuarias
+  GET /contatos-emergencia
+  GET /usuarias/{id_usuario}/alertas
+  GET /usuarias/{id_usuario}/configuracoes-seguranca
+  GET /health/db        (testa a conexao com o banco)
+
+===============================================================
+ DICAS E ERROS COMUNS
+===============================================================
+  - CPF, e-mail e telefone nao podem repetir (erro 409).
+  - Cada usuaria tem so UMA configuracao. Para mudar, use o PATCH.
+  - Erro 422: campo faltando ou no formato errado. Veja o "Response body".
+      * data_nascimento deve ser AAAA-MM-DD
+      * senha: minimo 8 caracteres
+      * cpf: 11 numeros
+      * pin_desativado: 4 a 8 numeros
+      * prioridade_notificacao: de 1 a 10
+  - Erro 404: o id_usuario nao existe. Confira se copiou inteiro.
+  - Senha e PIN nunca voltam na resposta (ficam guardados como hash).
+  - Use dados ficticios nos testes: isso grava no Supabase de verdade.
