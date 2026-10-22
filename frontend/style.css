@@ -502,14 +502,6 @@ body {
 .status-badge { display: inline-flex; align-items: center; gap: 10px; background: rgba(16,185,129,.1); color: #6ee7b7; border: 1px solid rgba(16,185,129,.3); padding: 13px 20px; border-radius: 10px; font-size: .88rem; margin-top: 22px; text-align: left; max-width: 560px; }
 .status-badge .ic { width: 22px; height: 22px; }
 
-.countdown-box { padding: 10px 0 4px; }
-.countdown-label { color: var(--agency-text-secondary); font-size: .9rem; margin: 0; }
-.countdown-number { font-size: 4.2rem; font-weight: 800; color: #fb7185; line-height: 1.1; margin: 4px 0; font-variant-numeric: tabular-nums; }
-.countdown-hint { color: var(--agency-text-secondary); font-size: .82rem; margin: 0 0 18px; }
-.btn-cancel-alert { display: inline-flex; align-items: center; gap: 8px; background: transparent; border: 1px solid var(--agency-border); color: var(--agency-text-primary); padding: 11px 22px; border-radius: 10px; cursor: pointer; font-size: .9rem; font-weight: 600; transition: background .2s ease, border-color .2s ease; }
-.btn-cancel-alert:hover { background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.3); }
-.btn-cancel-alert .ic { width: 18px; height: 18px; }
-
 .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .info-card, .chat-head { display: flex; align-items: center; gap: 14px; }
 .info-card { background: var(--agency-surface); border: 1px solid var(--agency-border); border-radius: 12px; padding: 16px 18px; }
@@ -553,14 +545,192 @@ body {
     .input-narrow { max-width: none; }
 }
 
-/* Cabeçalho do cardápio mais compacto em telas pequenas */
-@media (max-width: 480px) {
-    .menu-nav { padding: 12px 16px; gap: 10px; }
-    .menu-brand { font-size: 1.15rem; }
-    .btn-restore { padding: 7px 12px; font-size: 0.8rem; }
-    .menu-hero { padding: 20px 16px 6px; }
-    .menu-hero h1 { font-size: 1.6rem; }
+/* ==========================================================================
+   1.5 TELA DE PIN — PORTA DE ENTRADA DA ÁREA PROTEGIDA
+   ========================================================================== */
+#pin-screen {
+    position: relative;
+    background: radial-gradient(120% 90% at 50% 0%, #121a2e 0%, var(--agency-bg) 60%);
+    color: var(--agency-text-primary);
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: calc(env(safe-area-inset-top, 0px) + 24px) 20px calc(env(safe-area-inset-bottom, 0px) + 24px);
+    overflow: hidden;
 }
 
-/* Tabela de contatos com rolagem própria, sem quebrar a página */
-.table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+/* textura discreta de "grade de segurança" no fundo */
+.pin-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(59, 130, 246, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
+    background-size: 34px 34px;
+    mask-image: radial-gradient(70% 60% at 50% 30%, #000 0%, transparent 100%);
+    pointer-events: none;
+}
+
+.pin-card {
+    position: relative;
+    z-index: 1;
+    background-color: var(--agency-surface);
+    border: 1px solid var(--agency-border);
+    border-radius: 20px;
+    padding: 36px 26px 28px;
+    width: 100%;
+    max-width: 360px;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+}
+
+.btn-pin-voltar {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--agency-text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.btn-pin-voltar:hover { background: rgba(255, 255, 255, 0.1); color: var(--agency-text-primary); }
+.btn-pin-voltar .ic { width: 16px; height: 16px; }
+
+.pin-shield {
+    position: relative;
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    background: rgba(59, 130, 246, 0.12);
+    color: var(--agency-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+}
+
+.pin-shield .ic-xl { width: 28px; height: 28px; }
+
+.pin-shield-ring {
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    border: 1px solid rgba(59, 130, 246, 0.35);
+    animation: pinPulse 2.4s ease-out infinite;
+}
+
+@keyframes pinPulse {
+    0% { transform: scale(0.9); opacity: 0.8; }
+    100% { transform: scale(1.35); opacity: 0; }
+}
+
+.pin-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 4px; }
+
+.pin-subtitle {
+    font-size: 0.85rem;
+    color: var(--agency-text-secondary);
+    margin-bottom: 26px;
+}
+
+/* bolinhas que preenchem conforme digita */
+.pin-dots {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 8px;
+}
+
+.pin-dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1.5px solid var(--agency-border);
+    background: transparent;
+    transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+.pin-dot.preenchido {
+    background: var(--agency-accent);
+    border-color: var(--agency-accent);
+    transform: scale(1.1);
+}
+
+.pin-dots.erro .pin-dot.preenchido {
+    background: var(--agency-alert);
+    border-color: var(--agency-alert);
+}
+
+.pin-dots.sucesso .pin-dot.preenchido {
+    background: #22c55e;
+    border-color: #22c55e;
+}
+
+.pin-erro {
+    min-height: 18px;
+    color: var(--agency-alert);
+    font-size: 0.8rem;
+    margin: 10px 0 2px;
+}
+
+/* input real (teclado físico / acessibilidade) — some visualmente, continua funcional */
+.pin-input-real {
+    position: absolute;
+    opacity: 0;
+    height: 1px;
+    width: 1px;
+    pointer-events: none;
+}
+
+.pin-keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.pin-keypad button {
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 1px solid var(--agency-border);
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--agency-text-primary);
+    font-size: 1.3rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.pin-keypad button:active { background: rgba(59, 130, 246, 0.18); transform: scale(0.93); }
+
+.pin-key-ghost { visibility: hidden; cursor: default; }
+.pin-key-ghost:active { background: transparent; transform: none; }
+
+.pin-key-apagar { color: var(--agency-text-secondary); }
+.pin-key-apagar .ic { width: 20px; height: 20px; }
+
+.pin-card.shake { animation: pinShake 0.4s ease; }
+@keyframes pinShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-8px); }
+    75% { transform: translateX(8px); }
+}
+
+@media (max-width: 360px) {
+    .pin-card { padding: 28px 18px 22px; }
+    .pin-keypad { gap: 9px; }
+    .pin-keypad button { font-size: 1.15rem; }
+}

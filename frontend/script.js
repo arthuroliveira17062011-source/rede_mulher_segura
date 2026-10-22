@@ -94,50 +94,101 @@ function switchTab(event, tabId) {
     event.currentTarget.classList.add('active');
 }
 
-// Modo Disfarce
+// Modo Disfarce (usado para VOLTAR do painel pro cardápio)
 function toggleDisguise() {
     document.getElementById('app-screen').classList.toggle('hidden');
     document.getElementById('disguise-screen').classList.toggle('hidden');
 }
 
-// Contagem regressiva do SOS — dá tempo de cancelar antes de disparar de verdade
-const TEMPO_CONTAGEM_SEGUNDOS = 10;
-let contagemRestante = 0;
-let intervaloContagem = null;
+// ---------------------------------------------------------------------
+// PORTA DE ENTRADA DA ÁREA PROTEGIDA (PIN)
+// ---------------------------------------------------------------------
+// Protótipo: PIN fixo no front. Quando o backend/Supabase estiver
+// pronto, troque PIN_CORRETO por uma checagem na tabela
+// `configuracoes_de_seguranca` (coluna pin_desativado) da usuária logada.
+const PIN_CORRETO = "1234";
+let pinDigitado = "";
 
-function iniciarContagemAlerta() {
-    contagemRestante = TEMPO_CONTAGEM_SEGUNDOS;
-
-    document.getElementById('sos-idle').classList.add('hidden');
-    document.getElementById('alert-status').classList.add('hidden');
-    document.getElementById('sos-countdown').classList.remove('hidden');
-    document.getElementById('countdown-number').innerText = contagemRestante;
-
-    clearInterval(intervaloContagem);
-    intervaloContagem = setInterval(() => {
-        contagemRestante--;
-        document.getElementById('countdown-number').innerText = contagemRestante;
-
-        if (contagemRestante <= 0) {
-            clearInterval(intervaloContagem);
-            document.getElementById('sos-countdown').classList.add('hidden');
-            triggerAlert();
-        }
-    }, 1000);
+function abrirTelaPin() {
+    document.getElementById('disguise-screen').classList.add('hidden');
+    document.getElementById('pin-screen').classList.remove('hidden');
+    resetarPin();
+    // mantém o campo real acessível pra quem usa teclado físico/leitor de tela
+    setTimeout(() => document.getElementById('pin-input').focus(), 50);
 }
 
-function cancelarAlerta() {
-    clearInterval(intervaloContagem);
-    document.getElementById('sos-countdown').classList.add('hidden');
-    document.getElementById('sos-idle').classList.remove('hidden');
+function cancelarPin() {
+    document.getElementById('pin-screen').classList.add('hidden');
+    document.getElementById('disguise-screen').classList.remove('hidden');
+}
+
+function resetarPin() {
+    pinDigitado = "";
+    document.getElementById('pin-input').value = "";
+    document.getElementById('pin-erro').classList.add('hidden');
+    const dots = document.getElementById('pin-dots');
+    dots.classList.remove('erro', 'sucesso');
+    atualizarPontosPin();
+}
+
+function atualizarPontosPin() {
+    document.querySelectorAll('#pin-dots .pin-dot').forEach((dot, i) => {
+        dot.classList.toggle('preenchido', i < pinDigitado.length);
+    });
+}
+
+// Teclado numérico na tela
+function pressionarTecla(numero) {
+    if (pinDigitado.length >= 4) return;
+    pinDigitado += String(numero);
+    atualizarPontosPin();
+    if (pinDigitado.length === 4) {
+        setTimeout(verificarPin, 180); // pequena pausa pra usuária ver o 4º ponto preencher
+    }
+}
+
+function apagarDigitoPin() {
+    pinDigitado = pinDigitado.slice(0, -1);
+    atualizarPontosPin();
+}
+
+// Suporte a teclado físico (o campo real fica invisível, mas funcional)
+function aoDigitarPin(input) {
+    input.value = input.value.replace(/\D/g, '').slice(0, 4);
+    pinDigitado = input.value;
+    atualizarPontosPin();
+    if (pinDigitado.length === 4) {
+        setTimeout(verificarPin, 180);
+    }
+}
+
+function verificarPin() {
+    const dots = document.getElementById('pin-dots');
+    const erro = document.getElementById('pin-erro');
+
+    if (pinDigitado === PIN_CORRETO) {
+        dots.classList.add('sucesso');
+        setTimeout(() => {
+            document.getElementById('pin-screen').classList.add('hidden');
+            document.getElementById('app-screen').classList.remove('hidden');
+        }, 220);
+    } else {
+        dots.classList.add('erro');
+        erro.classList.remove('hidden');
+
+        const card = document.querySelector('.pin-card');
+        card.classList.remove('shake');
+        void card.offsetWidth; // reinicia a animação
+        card.classList.add('shake');
+
+        setTimeout(resetarPin, 500);
+    }
 }
 
 // Disparo de Emergência com Captura de GPS + Integração WhatsApp (wa.me)
 function triggerAlert() {
     const statusDiv = document.getElementById('alert-status');
     const telefoneDEAM = "5544999999999"; // Substitua pelo número real com DDD
-
-    document.getElementById('sos-idle').classList.remove('hidden');
 
     if ("geolocation" in navigator) {
         statusDiv.classList.remove('hidden');
