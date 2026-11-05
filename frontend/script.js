@@ -71,9 +71,33 @@ function handleLogin(event) {
     document.getElementById('app-screen').classList.remove('hidden');
 }
 
+// Máscara automática DD/MM/AAAA no campo de nascimento
+function mascaraNascimento(input) {
+    let v = input.value.replace(/\D/g, '').slice(0, 8);
+    if (v.length > 4) v = v.slice(0, 2) + '/' + v.slice(2, 4) + '/' + v.slice(4);
+    else if (v.length > 2) v = v.slice(0, 2) + '/' + v.slice(2);
+    input.value = v;
+    // o próprio navegador mostra o aviso e bloqueia o envio se a data for inválida
+    input.setCustomValidity(validarNascimento(v) ? '' : 'Digite uma data válida no formato DD/MM/AAAA.');
+}
+
+// Devolve a data no formato AAAA-MM-DD (o que o banco espera) ou null se inválida
+function validarNascimento(valor) {
+    const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(valor);
+    if (!m) return null;
+    const dia = +m[1], mes = +m[2], ano = +m[3];
+    const data = new Date(ano, mes - 1, dia);
+    const existe = data.getFullYear() === ano && data.getMonth() === mes - 1 && data.getDate() === dia;
+    if (!existe || ano < 1900 || data > new Date()) return null;
+    return `${m[3]}-${m[2]}-${m[1]}`;
+}
+
 // Lógica de Cadastro
 function handleRegister(event) {
     event.preventDefault();
+    const nascimentoISO = validarNascimento(document.getElementById('reg-nascimento').value);
+    if (!nascimentoISO) return;
+    // quando ligar o backend, envie nascimentoISO (AAAA-MM-DD) para a coluna data_nascimento
     alert("Cadastro realizado com sucesso! Acessando área protegida...");
     document.getElementById('auth-screen').classList.add('hidden');
     document.getElementById('app-screen').classList.remove('hidden');

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,32 +18,88 @@
     <meta name="apple-mobile-web-app-title" content="Sabor Caseiro">
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
     <!-- Ícones SVG embutidos (sem dependência externa) -->
     <svg width="0" height="0" style="position:absolute" aria-hidden="true">
         <defs>
-            <symbol id="i-shield-check" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
-            <symbol id="i-siren" viewBox="0 0 24 24"><path d="M7 18v-6a5 5 0 1 1 10 0v6"/><path d="M5 21a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-1a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2z"/><path d="M21 12h1M2 12h1M12 2v1M18.5 4.5 18 5M5.5 4.5 6 5M12 12v6"/></symbol>
-            <symbol id="i-bot" viewBox="0 0 24 24"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2M20 14h2M15 13v2M9 13v2"/></symbol>
-            <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
-            <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></symbol>
-            <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></symbol>
-            <symbol id="i-lock" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
-            <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></symbol>
-            <symbol id="i-cart" viewBox="0 0 24 24"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></symbol>
-            <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14M12 5v14"/></symbol>
-            <symbol id="i-send" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></symbol>
-            <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></symbol>
-            <symbol id="i-utensils" viewBox="0 0 24 24"><path d="M3 2v7a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V2M7 2v20M21 15V2a5 5 0 0 0-5 5v6a2 2 0 0 0 2 2h3zm0 0v7"/></symbol>
-            <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
-            <symbol id="i-key" viewBox="0 0 24 24"><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6M15.5 7.5l3 3L22 7l-3-3"/></symbol>
-            <symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></symbol>
-            <symbol id="i-backspace" viewBox="0 0 24 24"><path d="M21 4H9l-7 8 7 8h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/><path d="m12 9 6 6M18 9l-6 6"/></symbol>
-            <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+            <symbol id="i-shield-check" viewBox="0 0 24 24">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                <path d="m9 12 2 2 4-4" />
+            </symbol>
+            <symbol id="i-siren" viewBox="0 0 24 24">
+                <path d="M7 18v-6a5 5 0 1 1 10 0v6" />
+                <path d="M5 21a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-1a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2z" />
+                <path d="M21 12h1M2 12h1M12 2v1M18.5 4.5 18 5M5.5 4.5 6 5M12 12v6" />
+            </symbol>
+            <symbol id="i-bot" viewBox="0 0 24 24">
+                <path d="M12 8V4H8" />
+                <rect width="16" height="12" x="4" y="8" rx="2" />
+                <path d="M2 14h2M20 14h2M15 13v2M9 13v2" />
+            </symbol>
+            <symbol id="i-users" viewBox="0 0 24 24">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+            </symbol>
+            <symbol id="i-sliders" viewBox="0 0 24 24">
+                <path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6" />
+            </symbol>
+            <symbol id="i-logout" viewBox="0 0 24 24">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" />
+            </symbol>
+            <symbol id="i-lock" viewBox="0 0 24 24">
+                <rect width="18" height="11" x="3" y="11" rx="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+            </symbol>
+            <symbol id="i-download" viewBox="0 0 24 24">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
+            </symbol>
+            <symbol id="i-cart" viewBox="0 0 24 24">
+                <circle cx="8" cy="21" r="1" />
+                <circle cx="19" cy="21" r="1" />
+                <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
+            </symbol>
+            <symbol id="i-plus" viewBox="0 0 24 24">
+                <path d="M5 12h14M12 5v14" />
+            </symbol>
+            <symbol id="i-send" viewBox="0 0 24 24">
+                <path d="m22 2-7 20-4-9-9-4z" />
+                <path d="M22 2 11 13" />
+            </symbol>
+            <symbol id="i-pin" viewBox="0 0 24 24">
+                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z" />
+                <circle cx="12" cy="10" r="3" />
+            </symbol>
+            <symbol id="i-utensils" viewBox="0 0 24 24">
+                <path
+                    d="M3 2v7a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V2M7 2v20M21 15V2a5 5 0 0 0-5 5v6a2 2 0 0 0 2 2h3zm0 0v7" />
+            </symbol>
+            <symbol id="i-phone" viewBox="0 0 24 24">
+                <path
+                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" />
+            </symbol>
+            <symbol id="i-key" viewBox="0 0 24 24">
+                <circle cx="7.5" cy="15.5" r="5.5" />
+                <path d="m21 2-9.6 9.6M15.5 7.5l3 3L22 7l-3-3" />
+            </symbol>
+            <symbol id="i-check" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" />
+                <path d="m9 12 2 2 4-4" />
+            </symbol>
+            <symbol id="i-backspace" viewBox="0 0 24 24">
+                <path d="M21 4H9l-7 8 7 8h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z" />
+                <path d="m12 9 6 6M18 9l-6 6" />
+            </symbol>
+            <symbol id="i-x" viewBox="0 0 24 24">
+                <path d="M18 6 6 18M6 6l12 12" />
+            </symbol>
         </defs>
     </svg>
 
@@ -86,7 +143,8 @@
                 <div class="form-grid">
                     <div class="form-group-full">
                         <label class="auth-label">Nome Completo</label>
-                        <input type="text" id="reg-nome" class="gourmet-input" placeholder="Ex: Maria da Silva" required>
+                        <input type="text" id="reg-nome" class="gourmet-input" placeholder="Ex: Maria da Silva"
+                            required>
                     </div>
                     <div>
                         <label class="auth-label">CPF</label>
@@ -94,11 +152,14 @@
                     </div>
                     <div>
                         <label class="auth-label">Data de Nascimento</label>
-                        <input type="date" id="reg-nascimento" class="gourmet-input" required>
+                        <input type="text" id="reg-nascimento" class="gourmet-input" placeholder="DD/MM/AAAA"
+                            inputmode="numeric" maxlength="10" autocomplete="bday" oninput="mascaraNascimento(this)"
+                            required>
                     </div>
                     <div>
                         <label class="auth-label">Celular / WhatsApp</label>
-                        <input type="tel" id="reg-telefone" class="gourmet-input" placeholder="(44) 99999-0000" required>
+                        <input type="tel" id="reg-telefone" class="gourmet-input" placeholder="(44) 99999-0000"
+                            required>
                     </div>
                     <div>
                         <label class="auth-label">E-mail</label>
@@ -106,7 +167,8 @@
                     </div>
                     <div class="form-group-full">
                         <label class="auth-label">Endereço Residencial Completo</label>
-                        <input type="text" id="reg-endereco" class="gourmet-input" placeholder="Rua, Número, Bairro, Cidade/PR" required>
+                        <input type="text" id="reg-endereco" class="gourmet-input"
+                            placeholder="Rua, Número, Bairro, Cidade/PR" required>
                     </div>
                     <div class="form-group-full">
                         <label class="auth-label">Senha de Acesso</label>
@@ -128,8 +190,12 @@
     <div id="disguise-screen" class="hidden">
         <nav class="menu-nav">
             <div class="menu-brand">Restaurante Sabor Caseiro</div>
-            <button id="btn-instalar" onclick="instalarAtalho()" class="btn-restore hidden"><svg class="ic"><use href="#i-download"/></svg>Salvar na tela inicial</button>
-            <button onclick="abrirTelaPin()" class="btn-restore"><svg class="ic"><use href="#i-lock"/></svg>Área Restrita</button>
+            <button id="btn-instalar" onclick="instalarAtalho()" class="btn-restore hidden"><svg class="ic">
+                    <use href="#i-download" />
+                </svg>Salvar na tela inicial</button>
+            <button onclick="abrirTelaPin()" class="btn-restore"><svg class="ic">
+                    <use href="#i-lock" />
+                </svg>Área Restrita</button>
         </nav>
 
         <header class="menu-hero">
@@ -147,7 +213,7 @@
 
         <main class="menu-container">
             <section class="dishes-grid" id="dishes-grid">
-                
+
                 <article class="dish-card" data-cat="pf">
                     <img class="dish-image" src="images/bife-a-cavalo.jpg" alt="PF Bife a Cavalo">
                     <div class="dish-card-body">
@@ -155,8 +221,11 @@
                             <h3 class="dish-title">PF Bife a Cavalo</h3>
                             <span class="dish-price">R$ 26,00</span>
                         </div>
-                        <p class="dish-desc">Bife acebolado com 2 ovos fritos, arroz, feijão caseiro, farofa e salada da casa.</p>
-                        <button class="btn-add-item" onclick="addToCart('PF Bife a Cavalo', 26.00)"><svg class="ic"><use href="#i-plus"/></svg>Adicionar ao Pedido</button>
+                        <p class="dish-desc">Bife acebolado com 2 ovos fritos, arroz, feijão caseiro, farofa e salada da
+                            casa.</p>
+                        <button class="btn-add-item" onclick="addToCart('PF Bife a Cavalo', 26.00)"><svg class="ic">
+                                <use href="#i-plus" />
+                            </svg>Adicionar ao Pedido</button>
                     </div>
                 </article>
 
@@ -167,8 +236,11 @@
                             <h3 class="dish-title">PF Frango Grelhado</h3>
                             <span class="dish-price">R$ 22,00</span>
                         </div>
-                        <p class="dish-desc">Filé de frango grelhado na chapa, arroz branco, feijão, purê de batata e salada.</p>
-                        <button class="btn-add-item" onclick="addToCart('PF Frango Grelhado', 22.00)"><svg class="ic"><use href="#i-plus"/></svg>Adicionar ao Pedido</button>
+                        <p class="dish-desc">Filé de frango grelhado na chapa, arroz branco, feijão, purê de batata e
+                            salada.</p>
+                        <button class="btn-add-item" onclick="addToCart('PF Frango Grelhado', 22.00)"><svg class="ic">
+                                <use href="#i-plus" />
+                            </svg>Adicionar ao Pedido</button>
                     </div>
                 </article>
 
@@ -180,7 +252,10 @@
                             <span class="dish-price">R$ 19,00</span>
                         </div>
                         <p class="dish-desc">Carne panela com batata, arroz, feijão e macarrão ao molho vermelho.</p>
-                        <button class="btn-add-item" onclick="addToCart('Marmitex Comercial (M)', 19.00)"><svg class="ic"><use href="#i-plus"/></svg>Adicionar ao Pedido</button>
+                        <button class="btn-add-item" onclick="addToCart('Marmitex Comercial (M)', 19.00)"><svg
+                                class="ic">
+                                <use href="#i-plus" />
+                            </svg>Adicionar ao Pedido</button>
                     </div>
                 </article>
 
@@ -191,8 +266,12 @@
                             <h3 class="dish-title">Marmitex Feijoada (G)</h3>
                             <span class="dish-price">R$ 28,00</span>
                         </div>
-                        <p class="dish-desc">Feijoada completa com couve refogada, farofa temperada, torresmo e laranjas.</p>
-                        <button class="btn-add-item" onclick="addToCart('Marmitex Feijoada (G)', 28.00)"><svg class="ic"><use href="#i-plus"/></svg>Adicionar ao Pedido</button>
+                        <p class="dish-desc">Feijoada completa com couve refogada, farofa temperada, torresmo e
+                            laranjas.</p>
+                        <button class="btn-add-item" onclick="addToCart('Marmitex Feijoada (G)', 28.00)"><svg
+                                class="ic">
+                                <use href="#i-plus" />
+                            </svg>Adicionar ao Pedido</button>
                     </div>
                 </article>
 
@@ -204,7 +283,9 @@
                             <span class="dish-price">R$ 7,50</span>
                         </div>
                         <p class="dish-desc">Salgado frito na hora com recheio bem temperado de frango desfiado.</p>
-                        <button class="btn-add-item" onclick="addToCart('Coxinha de Frango', 7.50)"><svg class="ic"><use href="#i-plus"/></svg>Adicionar ao Pedido</button>
+                        <button class="btn-add-item" onclick="addToCart('Coxinha de Frango', 7.50)"><svg class="ic">
+                                <use href="#i-plus" />
+                            </svg>Adicionar ao Pedido</button>
                     </div>
                 </article>
 
@@ -216,7 +297,9 @@
                             <span class="dish-price">R$ 8,00</span>
                         </div>
                         <p class="dish-desc">Pastel crocante recheado com carne moída temperada e azeitona.</p>
-                        <button class="btn-add-item" onclick="addToCart('Pastel de Carne', 8.00)"><svg class="ic"><use href="#i-plus"/></svg>Adicionar ao Pedido</button>
+                        <button class="btn-add-item" onclick="addToCart('Pastel de Carne', 8.00)"><svg class="ic">
+                                <use href="#i-plus" />
+                            </svg>Adicionar ao Pedido</button>
                     </div>
                 </article>
 
@@ -228,7 +311,9 @@
                             <span class="dish-price">R$ 9,00</span>
                         </div>
                         <p class="dish-desc">Suco natural de laranja espremido na hora, gelado e sem açúcar.</p>
-                        <button class="btn-add-item" onclick="addToCart('Suco de Laranja', 9.00)"><svg class="ic"><use href="#i-plus"/></svg>Adicionar ao Pedido</button>
+                        <button class="btn-add-item" onclick="addToCart('Suco de Laranja', 9.00)"><svg class="ic">
+                                <use href="#i-plus" />
+                            </svg>Adicionar ao Pedido</button>
                     </div>
                 </article>
 
@@ -240,7 +325,9 @@
                             <span class="dish-price">R$ 6,00</span>
                         </div>
                         <p class="dish-desc">Coca-Cola, Guaraná Antarctica ou Fanta Laranja.</p>
-                        <button class="btn-add-item" onclick="addToCart('Refrigerante Lata', 6.00)"><svg class="ic"><use href="#i-plus"/></svg>Adicionar ao Pedido</button>
+                        <button class="btn-add-item" onclick="addToCart('Refrigerante Lata', 6.00)"><svg class="ic">
+                                <use href="#i-plus" />
+                            </svg>Adicionar ao Pedido</button>
                     </div>
                 </article>
 
@@ -248,7 +335,9 @@
 
             <aside>
                 <div class="cart-card">
-                    <h3>Comanda <span class="cart-ico"><svg class="ic"><use href="#i-cart"/></svg></span></h3>
+                    <h3>Comanda <span class="cart-ico"><svg class="ic">
+                                <use href="#i-cart" />
+                            </svg></span></h3>
                     <ul class="cart-items" id="cart-items">
                         <li style="color: var(--menu-text-muted); font-size: 0.85rem;">Seu pedido está vazio.</li>
                     </ul>
@@ -271,12 +360,16 @@
 
         <div class="pin-card">
             <button type="button" class="btn-pin-voltar" onclick="cancelarPin()" aria-label="Cancelar e voltar">
-                <svg class="ic"><use href="#i-x"/></svg>
+                <svg class="ic">
+                    <use href="#i-x" />
+                </svg>
             </button>
 
             <div class="pin-shield">
                 <span class="pin-shield-ring"></span>
-                <svg class="ic ic-xl"><use href="#i-shield-check"/></svg>
+                <svg class="ic ic-xl">
+                    <use href="#i-shield-check" />
+                </svg>
             </div>
 
             <h2 class="pin-title">Área protegida</h2>
@@ -292,16 +385,8 @@
             <p id="pin-erro" class="pin-erro hidden">PIN incorreto. Tente novamente.</p>
 
             <!-- Campo real (acessibilidade / teclado físico), invisível mas funcional -->
-            <input
-                type="password"
-                id="pin-input"
-                class="pin-input-real"
-                inputmode="numeric"
-                pattern="[0-9]*"
-                maxlength="4"
-                autocomplete="off"
-                oninput="aoDigitarPin(this)"
-            >
+            <input type="password" id="pin-input" class="pin-input-real" inputmode="numeric" pattern="[0-9]*"
+                maxlength="4" autocomplete="off" oninput="aoDigitarPin(this)">
 
             <div class="pin-keypad">
                 <button type="button" onclick="pressionarTecla(1)">1</button>
@@ -316,7 +401,9 @@
                 <button type="button" class="pin-key-ghost" tabindex="-1" aria-hidden="true"></button>
                 <button type="button" onclick="pressionarTecla(0)">0</button>
                 <button type="button" class="pin-key-apagar" onclick="apagarDigitoPin()" aria-label="Apagar">
-                    <svg class="ic"><use href="#i-backspace"/></svg>
+                    <svg class="ic">
+                        <use href="#i-backspace" />
+                    </svg>
                 </button>
             </div>
         </div>
@@ -328,16 +415,24 @@
     <div id="app-screen" class="hidden">
         <nav class="agency-nav">
             <div class="agency-brand">
-                <span class="brand-mark"><svg class="ic"><use href="#i-shield-check"/></svg></span>
+                <span class="brand-mark"><svg class="ic">
+                        <use href="#i-shield-check" />
+                    </svg></span>
                 <span class="brand-text">
                     <strong>Rede Mulher Segura</strong>
                     <small>Central de Proteção</small>
                 </span>
-                <span class="agency-badge"><svg class="ic"><use href="#i-pin"/></svg>Maringá / PR</span>
+                <span class="agency-badge"><svg class="ic">
+                        <use href="#i-pin" />
+                    </svg>Maringá / PR</span>
             </div>
             <div class="nav-actions">
-                <span class="secure-chip"><svg class="ic"><use href="#i-lock"/></svg>Conexão protegida</span>
-                <button onclick="toggleDisguise()" class="btn-disguise"><svg class="ic"><use href="#i-utensils"/></svg>Modo Disfarce</button>
+                <span class="secure-chip"><svg class="ic">
+                        <use href="#i-lock" />
+                    </svg>Conexão protegida</span>
+                <button onclick="toggleDisguise()" class="btn-disguise"><svg class="ic">
+                        <use href="#i-utensils" />
+                    </svg>Modo Disfarce</button>
             </div>
         </nav>
 
@@ -346,13 +441,27 @@
                 <div>
                     <p class="sidebar-label">Painel</p>
                     <ul class="sidebar-menu">
-                        <li><button class="sidebar-btn active" data-tone="red" onclick="switchTab(event, 'emergencia')"><span class="nav-ico"><svg class="ic"><use href="#i-siren"/></svg></span>Alerta de Emergência</button></li>
-                        <li><button class="sidebar-btn" data-tone="violet" onclick="switchTab(event, 'ia')"><span class="nav-ico"><svg class="ic"><use href="#i-bot"/></svg></span>Assistente Jurídico</button></li>
-                        <li><button class="sidebar-btn" data-tone="green" onclick="switchTab(event, 'contatos')"><span class="nav-ico"><svg class="ic"><use href="#i-users"/></svg></span>Contatos de Confiança</button></li>
-                        <li><button class="sidebar-btn" data-tone="amber" onclick="switchTab(event, 'config')"><span class="nav-ico"><svg class="ic"><use href="#i-sliders"/></svg></span>Configurações</button></li>
+                        <li><button class="sidebar-btn active" data-tone="red"
+                                onclick="switchTab(event, 'emergencia')"><span class="nav-ico"><svg class="ic">
+                                        <use href="#i-siren" />
+                                    </svg></span>Alerta de Emergência</button></li>
+                        <li><button class="sidebar-btn" data-tone="violet" onclick="switchTab(event, 'ia')"><span
+                                    class="nav-ico"><svg class="ic">
+                                        <use href="#i-bot" />
+                                    </svg></span>Assistente Jurídico</button></li>
+                        <li><button class="sidebar-btn" data-tone="green" onclick="switchTab(event, 'contatos')"><span
+                                    class="nav-ico"><svg class="ic">
+                                        <use href="#i-users" />
+                                    </svg></span>Contatos de Confiança</button></li>
+                        <li><button class="sidebar-btn" data-tone="amber" onclick="switchTab(event, 'config')"><span
+                                    class="nav-ico"><svg class="ic">
+                                        <use href="#i-sliders" />
+                                    </svg></span>Configurações</button></li>
                     </ul>
                 </div>
-                <button class="btn-logout" onclick="logout()"><svg class="ic"><use href="#i-logout"/></svg>Sair do App</button>
+                <button class="btn-logout" onclick="logout()"><svg class="ic">
+                        <use href="#i-logout" />
+                    </svg>Sair do App</button>
             </aside>
 
             <main class="content-area">
@@ -360,14 +469,18 @@
                 <section id="emergencia" class="tab-content">
                     <div class="dashboard-header">
                         <h2>Alerta de Emergência</h2>
-                        <p>O acionamento captura as coordenadas e notifica imediatamente os contatos de confiança cadastrados.</p>
+                        <p>O acionamento captura as coordenadas e notifica imediatamente os contatos de confiança
+                            cadastrados.</p>
                     </div>
 
                     <div class="agency-card alert-zone">
                         <div id="sos-idle">
                             <div class="sos-wrap">
-                                <button class="btn-agency-emergency" onclick="iniciarContagemAlerta()" aria-label="Disparar alerta de socorro">
-                                    <svg class="ic ic-xl"><use href="#i-siren"/></svg>
+                                <button class="btn-agency-emergency" onclick="iniciarContagemAlerta()"
+                                    aria-label="Disparar alerta de socorro">
+                                    <svg class="ic ic-xl">
+                                        <use href="#i-siren" />
+                                    </svg>
                                     <span>SOS</span>
                                 </button>
                             </div>
@@ -379,43 +492,68 @@
                             <p id="countdown-number" class="countdown-number">10</p>
                             <p class="countdown-hint">Toque em cancelar se não precisar de ajuda</p>
                             <button class="btn-cancel-alert" onclick="cancelarAlerta()">
-                                <svg class="ic"><use href="#i-logout"/></svg>
+                                <svg class="ic">
+                                    <use href="#i-logout" />
+                                </svg>
                                 Cancelar
                             </button>
                         </div>
 
                         <div id="alert-status" class="status-badge hidden">
-                            <svg class="ic"><use href="#i-check"/></svg>
+                            <svg class="ic">
+                                <use href="#i-check" />
+                            </svg>
                             <span id="alert-status-text"></span>
                         </div>
                     </div>
 
                     <div class="info-grid">
-                        <div class="info-card"><span class="info-ico tone-blue"><svg class="ic"><use href="#i-pin"/></svg></span><div><strong>Localização</strong><small>Coordenadas enviadas com o alerta</small></div></div>
-                        <div class="info-card"><span class="info-ico tone-green"><svg class="ic"><use href="#i-users"/></svg></span><div><strong id="info-contacts">2 contatos ativos</strong><small>Recebem o aviso em tempo real</small></div></div>
-                        <div class="info-card"><span class="info-ico tone-red"><svg class="ic"><use href="#i-phone"/></svg></span><div><strong>190 · 180</strong><small>Polícia Militar e Central da Mulher</small></div></div>
+                        <div class="info-card"><span class="info-ico tone-blue"><svg class="ic">
+                                    <use href="#i-pin" />
+                                </svg></span>
+                            <div><strong>Localização</strong><small>Coordenadas enviadas com o alerta</small></div>
+                        </div>
+                        <div class="info-card"><span class="info-ico tone-green"><svg class="ic">
+                                    <use href="#i-users" />
+                                </svg></span>
+                            <div><strong id="info-contacts">2 contatos ativos</strong><small>Recebem o aviso em tempo
+                                    real</small></div>
+                        </div>
+                        <div class="info-card"><span class="info-ico tone-red"><svg class="ic">
+                                    <use href="#i-phone" />
+                                </svg></span>
+                            <div><strong>190 · 180</strong><small>Polícia Militar e Central da Mulher</small></div>
+                        </div>
                     </div>
                 </section>
 
                 <section id="ia" class="tab-content hidden">
                     <div class="dashboard-header">
                         <h2>Orientação Jurídica e Direitos</h2>
-                        <p>Consultas privadas, processadas sem envio de dados a servidores externos (Lei Maria da Penha / Rede Maringá).</p>
+                        <p>Consultas privadas, processadas sem envio de dados a servidores externos (Lei Maria da Penha
+                            / Rede Maringá).</p>
                     </div>
 
                     <div class="agency-card">
                         <div class="chat-head">
-                            <span class="info-ico tone-violet"><svg class="ic"><use href="#i-bot"/></svg></span>
+                            <span class="info-ico tone-violet"><svg class="ic">
+                                    <use href="#i-bot" />
+                                </svg></span>
                             <div><strong>Assistente Virtual</strong><small>Atendimento privado e local</small></div>
                         </div>
                         <div class="chat-container" id="chat-box">
                             <div class="chat-msg system">
-                                Assistente virtual pronta. Como posso ajudar com orientação sobre medidas protetivas ou locais de atendimento em Maringá/PR?
+                                Assistente virtual pronta. Como posso ajudar com orientação sobre medidas protetivas ou
+                                locais de atendimento em Maringá/PR?
                             </div>
                         </div>
                         <div class="form-row">
-                            <input type="text" id="chat-input" class="agency-input" placeholder="Ex: Onde fica a DEAM em Maringá? Como pedir medida protetiva?" onkeydown="if(event.key==='Enter')sendMessage()">
-                            <button class="btn-agency-primary" onclick="sendMessage()"><svg class="ic"><use href="#i-send"/></svg>Consultar</button>
+                            <input type="text" id="chat-input" class="agency-input"
+                                placeholder="Ex: Onde fica a DEAM em Maringá? Como pedir medida protetiva?"
+                                onkeydown="if(event.key==='Enter')sendMessage()">
+                            <button class="btn-agency-primary" onclick="sendMessage()"><svg class="ic">
+                                    <use href="#i-send" />
+                                </svg>Consultar</button>
                         </div>
                     </div>
                 </section>
@@ -430,19 +568,34 @@
                         <div class="table-scroll">
                             <table class="agency-table">
                                 <thead>
-                                    <tr><th>Nome</th><th>Vínculo</th><th>Telefone / WhatsApp</th></tr>
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>Vínculo</th>
+                                        <th>Telefone / WhatsApp</th>
+                                    </tr>
                                 </thead>
                                 <tbody id="contact-list">
-                                    <tr><td><span class="avatar">MS</span>Maria Silva</td><td>Irmã</td><td>(44) 99999-1111</td></tr>
-                                    <tr><td><span class="avatar">AS</span>Ana Souza</td><td>Amiga</td><td>(44) 98888-2222</td></tr>
+                                    <tr>
+                                        <td><span class="avatar">MS</span>Maria Silva</td>
+                                        <td>Irmã</td>
+                                        <td>(44) 99999-1111</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="avatar">AS</span>Ana Souza</td>
+                                        <td>Amiga</td>
+                                        <td>(44) 98888-2222</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
 
                         <div class="form-row form-row-top">
                             <input type="text" id="new-contact-name" class="agency-input" placeholder="Nome completo">
-                            <input type="text" id="new-contact-phone" class="agency-input" placeholder="Telefone (44) 9...">
-                            <button class="btn-agency-primary" onclick="addContact()"><svg class="ic"><use href="#i-plus"/></svg>Adicionar</button>
+                            <input type="text" id="new-contact-phone" class="agency-input"
+                                placeholder="Telefone (44) 9...">
+                            <button class="btn-agency-primary" onclick="addContact()"><svg class="ic">
+                                    <use href="#i-plus" />
+                                </svg>Adicionar</button>
                         </div>
                     </div>
                 </section>
@@ -455,12 +608,18 @@
 
                     <div class="agency-card">
                         <div class="chat-head">
-                            <span class="info-ico tone-amber"><svg class="ic"><use href="#i-key"/></svg></span>
-                            <div><strong>Alterar Senha</strong><small>Atualize sua senha de acesso ao sistema</small></div>
+                            <span class="info-ico tone-amber"><svg class="ic">
+                                    <use href="#i-key" />
+                                </svg></span>
+                            <div><strong>Alterar Senha</strong><small>Atualize sua senha de acesso ao sistema</small>
+                            </div>
                         </div>
                         <div class="form-row">
                             <input type="password" class="agency-input input-narrow" placeholder="Nova senha">
-                            <button class="btn-agency-primary" onclick="alert('Senha atualizada com sucesso!')"><svg class="ic"><use href="#i-check"/></svg>Atualizar Senha</button>
+                            <button class="btn-agency-primary" onclick="alert('Senha atualizada com sucesso!')"><svg
+                                    class="ic">
+                                    <use href="#i-check" />
+                                </svg>Atualizar Senha</button>
                         </div>
                     </div>
                 </section>
@@ -469,7 +628,8 @@
         </div>
     </div>
 
-<!-- Conexão com o arquivo JS separado -->
-<script src="script.js"></script>
+    <!-- Conexão com o arquivo JS separado -->
+    <script src="script.js"></script>
 </body>
+
 </html>
