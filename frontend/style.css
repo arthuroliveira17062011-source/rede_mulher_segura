@@ -734,3 +734,65 @@ body {
     .pin-keypad { gap: 9px; }
     .pin-keypad button { font-size: 1.15rem; }
 }
+
+/* ==========================================================================
+   ALERTA SOS: CONTAGEM REGRESSIVA DE 5 SEGUNDOS
+   ========================================================================== */
+.countdown-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.countdown-label {
+    color: var(--agency-text-secondary);
+    font-size: 0.95rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.countdown-number {
+    font-size: 6.5rem;
+    font-weight: 800;
+    line-height: 1;
+    color: #fb7185;
+    text-shadow: 0 0 30px rgba(244, 63, 94, 0.55);
+    font-variant-numeric: tabular-nums;
+    animation: countdown-pulse 1s ease-in-out infinite alternate;
+}
+
+@keyframes countdown-pulse {
+    from { transform: scale(1.1); opacity: 1; }
+    to   { transform: scale(0.92); opacity: 0.8; }
+}
+
+.countdown-hint {
+    color: var(--agency-text-secondary);
+    font-size: 0.88rem;
+    margin-bottom: 14px;
+}
+
+.btn-cancel-alert {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 28px;
+    border-radius: 10px;
+    border: 1px solid var(--agency-border);
+    background: var(--agency-card);
+    color: var(--agency-text-primary);
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-cancel-alert:hover {
+    border-color: var(--agency-alert);
+    color: #fca5a5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .countdown-number { animation: none; }
+}

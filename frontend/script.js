@@ -68,7 +68,9 @@ function switchAuthTab(mode) {
 function handleLogin(event) {
     event.preventDefault();
     document.getElementById('auth-screen').classList.add('hidden');
-    document.getElementById('app-screen').classList.remove('hidden');
+    // ao entrar, a usuária vê primeiro o cardápio (modo disfarce);
+    // o painel só abre pelo botão "Área Restrita" + PIN
+    document.getElementById('disguise-screen').classList.remove('hidden');
 }
 
 // Máscara automática DD/MM/AAAA no campo de nascimento
@@ -98,9 +100,9 @@ function handleRegister(event) {
     const nascimentoISO = validarNascimento(document.getElementById('reg-nascimento').value);
     if (!nascimentoISO) return;
     // quando ligar o backend, envie nascimentoISO (AAAA-MM-DD) para a coluna data_nascimento
-    alert("Cadastro realizado com sucesso! Acessando área protegida...");
+    alert("Cadastro realizado com sucesso! Acessando o cardápio...");
     document.getElementById('auth-screen').classList.add('hidden');
-    document.getElementById('app-screen').classList.remove('hidden');
+    document.getElementById('disguise-screen').classList.remove('hidden');
 }
 
 function logout() {
@@ -209,36 +211,115 @@ function verificarPin() {
     }
 }
 
-// Disparo de Emergência com Captura de GPS + Integração WhatsApp (wa.me)
-function triggerAlert() {
-    const statusDiv = document.getElementById('alert-status');
-    const telefoneDEAM = "5544999999999"; // Substitua pelo número real com DDD
+// Disparo de Emergência: contagem de 5 segundos + Captura de GPS + Integração WhatsApp (wa.me)
+//   1) toque no SOS -> contagem regressiva de 5 segundos (dá para cancelar)
+//   2) no mesmo toque o navegador pergunta "Permitir localização?"
+//   3) no fim da contagem o alerta vai para o WhatsApp com a localização
+const SEGUNDOS_CONTAGEM = 5;
 
-    if ("geolocation" in navigator) {
-        statusDiv.classList.remove('hidden');
-        statusDiv.innerText = "Obtendo localização precisa via GPS...";
+let timerContagem = null;       // setInterval da contagem
+let alertaEmAndamento = false;  // evita disparar duas vezes ao mesmo tempo
+let contagemTerminou = false;
+let tentativaAlerta = 0;        // identifica a tentativa atual (cancelar invalida as respostas antigas)
+let posicaoAlerta = null;       // { lat, lng } quando a localização foi captada
 
-        navigator.geolocation.getCurrentPosition(
-            (posicao) => {
-                const lat = posicao.coords.latitude;
-                const lng = posicao.coords.longitude;
+// Alterna entre o botão SOS ('idle') e a contagem regressiva ('contagem')
+function mostrarEstadoSos(estado) {
+    document.getElementById('sos-idle').classList.toggle('hidden', estado === 'contagem');
+    document.getElementById('sos-countdown').classList.toggle('hidden', estado !== 'contagem');
+}
 
-                const mensagem = `SOCORRO! Preciso de ajuda imediata. Minha localização atual: https://maps.google.com/?q=${lat},${lng}`;
+function mostrarStatusAlerta(texto) {
+    document.getElementById('alert-status-text').innerText = texto;
+    document.getElementById('alert-status').classList.remove('hidden');
+}
 
-                statusDiv.innerText = `● ALERTA ATIVO — Geolocalização (${lat.toFixed(4)}, ${lng.toFixed(4)}) capturada. Redirecionando para o WhatsApp...`;
+function esconderStatusAlerta() {
+    document.getElementById('alert-status').classList.add('hidden');
+}
 
-                const urlWhatsapp = `https://wa.me/${telefoneDEAM}?text=${encodeURIComponent(mensagem)}`;
-                window.open(urlWhatsapp, '_blank');
-            },
-            (erro) => {
-                alert("Não foi possível obter a localização. Verifique se a permissão de GPS está ativada.");
-                statusDiv.innerText = "Erro ao capturar localização GPS.";
-            },
-            { enableHighAccuracy: true, timeout: 10000 }
-        );
-    } else {
+// Chamada pelo botão SOS
+function iniciarContagemAlerta() {
+    if (alertaEmAndamento) return;
+
+    if (!("geolocation" in navigator)) {
         alert("Geolocalização não é suportada por este dispositivo.");
+        return;
     }
+
+    alertaEmAndamento = true;
+    contagemTerminou = false;
+    posicaoAlerta = null;
+    const tentativa = ++tentativaAlerta;
+
+    esconderStatusAlerta();
+    mostrarEstadoSos('contagem');
+
+    let restante = SEGUNDOS_CONTAGEM;
+    const numero = document.getElementById('countdown-number');
+    numero.innerText = restante;
+
+    // Pede a localização já ao tocar no SOS: é aqui que o navegador mostra
+    // "Permitir localização?", e a usuária tem a contagem para tocar em "Permitir".
+    navigator.geolocation.getCurrentPosition(
+        (posicao) => {
+            if (tentativa !== tentativaAlerta) return; // alerta cancelado ou refeito
+            posicaoAlerta = { lat: posicao.coords.latitude, lng: posicao.coords.longitude };
+            if (contagemTerminou) enviarAlerta();
+        },
+        (erro) => {
+            if (tentativa !== tentativaAlerta) return;
+            cancelarAlerta();
+            mostrarStatusAlerta("Erro ao capturar localização GPS.");
+            alert("Não foi possível obter a localização. Verifique se a permissão de GPS está ativada.");
+        },
+        { enableHighAccuracy: true, timeout: 10000 }
+    );
+
+    timerContagem = setInterval(() => {
+        restante--;
+        if (restante > 0) {
+            numero.innerText = restante;
+            return;
+        }
+
+        clearInterval(timerContagem);
+        timerContagem = null;
+        contagemTerminou = true;
+        mostrarEstadoSos('idle');
+
+        if (posicaoAlerta) {
+            enviarAlerta();
+        } else {
+            // a usuária ainda não respondeu ao pedido de localização
+            mostrarStatusAlerta("Obtendo localização precisa via GPS... Toque em \"Permitir\" no aviso do navegador.");
+        }
+    }, 1000);
+}
+
+// Chamada pelo botão "Cancelar"
+function cancelarAlerta() {
+    clearInterval(timerContagem);
+    timerContagem = null;
+    tentativaAlerta++;          // ignora respostas de localização que ainda chegarem
+    alertaEmAndamento = false;
+    contagemTerminou = false;
+    mostrarEstadoSos('idle');
+    esconderStatusAlerta();
+}
+
+// Fim da contagem com a localização em mãos: abre o WhatsApp com o alerta
+function enviarAlerta() {
+    const telefoneDEAM = "5544999999999"; // Substitua pelo número real com DDD
+    const { lat, lng } = posicaoAlerta;
+
+    const mensagem = `SOCORRO! Preciso de ajuda imediata. Minha localização atual: https://maps.google.com/?q=${lat},${lng}`;
+
+    mostrarStatusAlerta(`● ALERTA ATIVO — Geolocalização (${lat.toFixed(4)}, ${lng.toFixed(4)}) capturada. Redirecionando para o WhatsApp...`);
+    alertaEmAndamento = false; // libera um novo disparo
+
+    const urlWhatsapp = `https://wa.me/${telefoneDEAM}?text=${encodeURIComponent(mensagem)}`;
+    window.open(urlWhatsapp, '_blank');
 }
 
 // Anexo de Provas (Geração Simulada de Hash SHA-256)
